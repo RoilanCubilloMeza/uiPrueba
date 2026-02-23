@@ -7,9 +7,6 @@
 
     <Grid ColumnDefinitions="320, *, 240" ColumnSpacing="0">
 
-        <!-- ══════════════════════════════════════════════════════ -->
-        <!-- Panel izquierdo: cliente + carro de compras           -->
-        <!-- ══════════════════════════════════════════════════════ -->
         <Border Grid.Column="0"
                 BackgroundColor="White"
                 StrokeShape="RoundRectangle 12"

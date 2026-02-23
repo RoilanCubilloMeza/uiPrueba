@@ -8,7 +8,7 @@
              Shell.NavBarIsVisible="False">
 
     <ScrollView>
-        <Grid ColumnDefinitions="0.8*, 1.0*, 1.2*"
+        <Grid ColumnDefinitions="0.8*, 1.6*"
               ColumnSpacing="14"
               Padding="18,16">
 
@@ -64,33 +64,14 @@
                             StrokeThickness="1"
                             Stroke="{StaticResource Gray200Brush}"
                             Margin="0,14,0,0"
-                            Padding="3">
-                        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="2">
-                            <Button Grid.Column="0"
-                                    Text="Físico"
-                                    Command="{Binding SeleccionarTipoIdCommand}"
-                                    CommandParameter="Fisico"
-                                    BackgroundColor="{Binding TipoFisicoBackground}"
-                                    TextColor="{Binding TipoFisicoTextColor}"
-                                    FontSize="13" BorderWidth="0" CornerRadius="8"
-                                    HeightRequest="36" Padding="0"/>
-                            <Button Grid.Column="1"
-                                    Text="Jurídico"
-                                    Command="{Binding SeleccionarTipoIdCommand}"
-                                    CommandParameter="Juridico"
-                                    BackgroundColor="{Binding TipoJuridicoBackground}"
-                                    TextColor="{Binding TipoJuridicoTextColor}"
-                                    FontSize="13" BorderWidth="0" CornerRadius="8"
-                                    HeightRequest="36" Padding="0"/>
-                            <Button Grid.Column="2"
-                                    Text="Extranjero"
-                                    Command="{Binding SeleccionarTipoIdCommand}"
-                                    CommandParameter="Extranjero"
-                                    BackgroundColor="{Binding TipoExtranjeroBackground}"
-                                    TextColor="{Binding TipoExtranjeroTextColor}"
-                                    FontSize="12" BorderWidth="0" CornerRadius="8"
-                                    HeightRequest="36" Padding="0"/>
-                        </Grid>
+                            Padding="4,2">
+                        <Picker ItemsSource="{Binding TiposIdentificacion}"
+                                SelectedItem="{Binding TipoId, Mode=TwoWay}"
+                                Title="Tipo de identificación"
+                                FontSize="13"
+                                TextColor="{StaticResource Gray900}"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="Fill"/>
                     </Border>
 
                     <Label Text="Crea un registro nuevo para el cliente."
@@ -101,7 +82,8 @@
             </controls:SectionCard>
 
         
-            <controls:SectionCard Grid.Column="1" Title="Datos del Cliente">
+            <Grid Grid.Column="1">
+                <controls:SectionCard Margin="0,20,0,0" Title="Datos del Cliente">
                 <VerticalStackLayout Spacing="0">
 
                     <!-- Nombre -->
@@ -163,58 +145,12 @@
                         </Grid>
                     </Border>
 
-                    <BoxView HeightRequest="18" BackgroundColor="Transparent"/>
-
-                    <!-- F10 Guardar -->
-                    <Border BackgroundColor="{StaticResource AccentGreen}"
-                            StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                            HeightRequest="52" HorizontalOptions="Fill"
-                            Padding="14,0">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GuardarCommand}"/>
-                        </Border.GestureRecognizers>
-                        <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
-                            <Label Grid.Column="0" Text="F10" TextColor="White"
-                                   FontAttributes="Bold" FontSize="16"
-                                   VerticalOptions="Center"/>
-                            <Label Grid.Column="1" Text="Guardar" TextColor="White"
-                                   FontAttributes="Bold" FontSize="16"
-                                   HorizontalTextAlignment="Center" VerticalOptions="Center"/>
-                            <Border Grid.Column="2" BackgroundColor="#1DA44E"
-                                    StrokeShape="RoundRectangle 6" StrokeThickness="0"
-                                    Padding="10,5" VerticalOptions="Center">
-                                <Label Text="F10" TextColor="White"
-                                       FontAttributes="Bold" FontSize="12"/>
-                            </Border>
-                        </Grid>
-                    </Border>
-
-                    <Grid ColumnDefinitions="*, *" ColumnSpacing="8" Margin="0,8,0,0">
-                        <Button Grid.Column="0" Text="Guardar y facturar"
-                                Style="{StaticResource SecondaryButton}"
-                                Command="{Binding GuardarYVolverCommand}"/>
-                        <Button Grid.Column="1" Text="Cancelar"
-                                Style="{StaticResource SecondaryButton}"
-                                Command="{Binding CancelarCommand}"/>
-                    </Grid>
-
-                    <Label Text="{Binding MensajeValidacion}"
-                           IsVisible="{Binding TieneMensajeValidacion}"
-                           TextColor="{StaticResource ErrorRed}"
-                           FontSize="12" HorizontalTextAlignment="Center" Margin="0,6,0,0"/>
-
-                </VerticalStackLayout>
-            </controls:SectionCard>
-
-
-            <Grid Grid.Column="2">
-                <controls:SectionCard Margin="0,20,0,0" Title="">
-                <VerticalStackLayout Spacing="0">
+                    <BoxView HeightRequest="12" BackgroundColor="Transparent"/>
 
                     <Label IsVisible="{Binding NoEsReceptor}"
                            Text="Active «Es Receptor» para ver los datos fiscales"
                            TextColor="{StaticResource Gray300}" FontSize="13"
-                           HorizontalTextAlignment="Center" Margin="0,24,0,0"/>
+                           HorizontalTextAlignment="Center" Margin="0,0,0,6"/>
 
                     <!-- Datos fiscales (solo si EsReceptor) -->
                     <VerticalStackLayout IsVisible="{Binding MostrarDatosFiscales}" Spacing="0">
@@ -351,14 +287,55 @@
                                FontAttributes="Italic" Margin="0,6,0,0"/>
 
                     </VerticalStackLayout>
+
+                    <BoxView HeightRequest="18" BackgroundColor="Transparent"/>
+
+                    <!-- F10 Guardar -->
+                    <Border BackgroundColor="{StaticResource AccentGreen}"
+                            StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                            HeightRequest="52" HorizontalOptions="Fill"
+                            Padding="14,0">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GuardarCommand}"/>
+                        </Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+                            <Label Grid.Column="0" Text="F10" TextColor="White"
+                                   FontAttributes="Bold" FontSize="16"
+                                   VerticalOptions="Center"/>
+                            <Label Grid.Column="1" Text="Guardar" TextColor="White"
+                                   FontAttributes="Bold" FontSize="16"
+                                   HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                            <Border Grid.Column="2" BackgroundColor="#1DA44E"
+                                    StrokeShape="RoundRectangle 6" StrokeThickness="0"
+                                    Padding="10,5" VerticalOptions="Center">
+                                <Label Text="F10" TextColor="White"
+                                       FontAttributes="Bold" FontSize="12"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="8" Margin="0,8,0,0">
+                        <Button Grid.Column="0" Text="Guardar y facturar"
+                                Style="{StaticResource SecondaryButton}"
+                                Command="{Binding GuardarYVolverCommand}"/>
+                        <Button Grid.Column="1" Text="Cancelar"
+                                Style="{StaticResource SecondaryButton}"
+                                Command="{Binding CancelarCommand}"/>
+                    </Grid>
+
+                    <Label Text="{Binding MensajeValidacion}"
+                           IsVisible="{Binding TieneMensajeValidacion}"
+                           TextColor="{StaticResource ErrorRed}"
+                           FontSize="12" HorizontalTextAlignment="Start" Margin="0,6,0,0"/>
+
                 </VerticalStackLayout>
                 </controls:SectionCard>
 
                 <!-- Badge RECEPTOR ELECTRÓNICO - floats over top of card -->
                 <Border BackgroundColor="{StaticResource AccentGreen}"
                         StrokeShape="RoundRectangle 6" StrokeThickness="0"
-                        Padding="14,7" HorizontalOptions="Start" VerticalOptions="Start"
-                        Margin="14,0,0,0">
+                        Padding="14,7" HorizontalOptions="Center" VerticalOptions="Start"
+                        Margin="0,0,0,0">
                     <Label Text="RECEPTOR ELECTRÓNICO" TextColor="White"
                            FontSize="12" FontAttributes="Bold"/>
                 </Border>

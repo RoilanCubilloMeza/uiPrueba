@@ -2,6 +2,7 @@ using Microsoft.Maui.Graphics;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using UiPrueba1.Models;
 
@@ -13,7 +14,7 @@ namespace UiPrueba1.ViewModels
     {
 
         private string _clienteId = string.Empty;
-        private string _tipoId = "Fisico";
+        private string _tipoId = "Cédula Física";
         private string _nombre = string.Empty;
         private bool _esReceptor;
         private string _telefono = string.Empty;
@@ -44,12 +45,6 @@ namespace UiPrueba1.ViewModels
                 OnPropertyChanged(nameof(EsFisico));
                 OnPropertyChanged(nameof(EsJuridico));
                 OnPropertyChanged(nameof(EsExtranjero));
-                OnPropertyChanged(nameof(TipoFisicoBackground));
-                OnPropertyChanged(nameof(TipoJuridicoBackground));
-                OnPropertyChanged(nameof(TipoExtranjeroBackground));
-                OnPropertyChanged(nameof(TipoFisicoTextColor));
-                OnPropertyChanged(nameof(TipoJuridicoTextColor));
-                OnPropertyChanged(nameof(TipoExtranjeroTextColor));
             }
         }
 
@@ -170,9 +165,9 @@ namespace UiPrueba1.ViewModels
 
         public bool MostrarDatosFiscales => _esReceptor;
         public bool NoEsReceptor         => !_esReceptor;
-        public bool EsFisico             => _tipoId == "Fisico";
-        public bool EsJuridico           => _tipoId == "Juridico";
-        public bool EsExtranjero         => _tipoId == "Extranjero";
+        public bool EsFisico             => _tipoId == "Cédula Física";
+        public bool EsJuridico           => _tipoId == "Cédula Jurídica";
+        public bool EsExtranjero         => _tipoId == "Extranjero No Domiciliado";
         public bool EstasSincronizando   => _syncStatus == SyncStatus.Syncing;
         public bool NoEstasSincronizando => _syncStatus != SyncStatus.Syncing;
         public bool TieneMensajeValidacion => !string.IsNullOrEmpty(_mensajeValidacion);
@@ -195,20 +190,6 @@ namespace UiPrueba1.ViewModels
             _                   => "🔄 Sincronizar"
         };
 
-        // ──────── Computed (Color) — Segmented TipoId buttons ────────
-
-        private static readonly Color ColorSegActivo    = Colors.White;
-        private static readonly Color ColorSegInactivo  = Colors.Transparent;
-        private static readonly Color ColorTextActivo   = Color.FromArgb("#111827");
-        private static readonly Color ColorTextInactivo = Color.FromArgb("#9CA3AF");
-
-        public Color TipoFisicoBackground    => _tipoId == "Fisico"     ? ColorSegActivo   : ColorSegInactivo;
-        public Color TipoJuridicoBackground  => _tipoId == "Juridico"   ? ColorSegActivo   : ColorSegInactivo;
-        public Color TipoExtranjeroBackground => _tipoId == "Extranjero" ? ColorSegActivo  : ColorSegInactivo;
-        public Color TipoFisicoTextColor     => _tipoId == "Fisico"     ? ColorTextActivo  : ColorTextInactivo;
-        public Color TipoJuridicoTextColor   => _tipoId == "Juridico"   ? ColorTextActivo  : ColorTextInactivo;
-        public Color TipoExtranjeroTextColor => _tipoId == "Extranjero" ? ColorTextActivo  : ColorTextInactivo;
-
         // ──────── Computed (Color) — Sync button ────────
 
         public Color SyncButtonBackground => _syncStatus switch
@@ -225,6 +206,16 @@ namespace UiPrueba1.ViewModels
         public ObservableCollection<string> Cantones   { get; } = new();
         public ObservableCollection<string> Distritos  { get; } = new();
 
+        public IReadOnlyList<string> TiposIdentificacion { get; } = new[]
+        {
+            "Cédula Física",
+            "Cédula Jurídica",
+            "DIMEX",
+            "NITE",
+            "Extranjero No Domiciliado",
+            "No Contribuyente"
+        };
+
         // ──────── Commands ────────
 
         public ICommand SincronizarCommand      { get; }
@@ -232,7 +223,6 @@ namespace UiPrueba1.ViewModels
         public ICommand GuardarYVolverCommand   { get; }
         public ICommand CancelarCommand         { get; }
         public ICommand BuscarActividadCommand  { get; }
-        public ICommand SeleccionarTipoIdCommand { get; }
 
         public ClienteViewModel()
         {
@@ -241,7 +231,6 @@ namespace UiPrueba1.ViewModels
             GuardarYVolverCommand   = new Command(async () => await EjecutarGuardarYVolver());
             CancelarCommand         = new Command(async () => await EjecutarCancelar());
             BuscarActividadCommand  = new Command(async () => await EjecutarBuscarActividad());
-            SeleccionarTipoIdCommand = new Command<string>(tipo => TipoId = tipo);
 
             CargarProvincias();
         }
@@ -344,24 +333,57 @@ namespace UiPrueba1.ViewModels
 
         private bool Validar()
         {
-            var faltantes = new List<string>();
+            var errores = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(ClienteId))
+                errores.Add("• El ID del cliente es requerido.");
 
             if (string.IsNullOrWhiteSpace(Nombre))
-                faltantes.Add("Nombre");
+                errores.Add("• El nombre del cliente es requerido.");
 
             if (EsReceptor)
             {
-                if (string.IsNullOrWhiteSpace(Email))     faltantes.Add("Email");
-                if (string.IsNullOrWhiteSpace(Direccion)) faltantes.Add("Dirección");
-                if (string.IsNullOrWhiteSpace(CodActividad)) faltantes.Add("Actividad");
+                if (string.IsNullOrWhiteSpace(Telefono))
+                    errores.Add("• El teléfono es requerido.");
+                else if (!EsTelefonoValido(Telefono))
+                    errores.Add("• El teléfono no es válido (ej: 8888-8888).");
+
+                if (string.IsNullOrWhiteSpace(Email))
+                    errores.Add("• El correo electrónico es requerido.");
+                else if (!EsEmailValido(Email))
+                    errores.Add("• El correo electrónico no es válido (ej: usuario@dominio.com).");
+
+                if (string.IsNullOrWhiteSpace(ProvinciaSeleccionada))
+                    errores.Add("• La provincia es requerida.");
+
+                if (string.IsNullOrWhiteSpace(CantonSeleccionado))
+                    errores.Add("• El cantón es requerido.");
+
+                if (string.IsNullOrWhiteSpace(DistritoSeleccionado))
+                    errores.Add("• El distrito es requerido.");
+
+                if (string.IsNullOrWhiteSpace(Direccion))
+                    errores.Add("• La dirección es requerida.");
+
+                if (string.IsNullOrWhiteSpace(CodActividad))
+                    errores.Add("• El código de actividad es requerido.");
             }
 
-            MensajeValidacion = faltantes.Count > 0
-                ? $"Falta: {string.Join(" / ", faltantes)}"
+            MensajeValidacion = errores.Count > 0
+                ? string.Join("\n", errores)
                 : string.Empty;
 
-            return faltantes.Count == 0;
+            return errores.Count == 0;
         }
+
+        private static readonly Regex _emailRegex =
+            new(@"^[^@\s]+@[^@\s]+\.[^@\s]{2,}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        private static readonly Regex _telefonoRegex =
+            new(@"^[\d\s\-\+\(\)]{7,15}$", RegexOptions.Compiled);
+
+        private static bool EsEmailValido(string email)    => _emailRegex.IsMatch(email.Trim());
+        private static bool EsTelefonoValido(string tel)   => _telefonoRegex.IsMatch(tel.Trim());
 
         // ──────── INotifyPropertyChanged ────────
 
