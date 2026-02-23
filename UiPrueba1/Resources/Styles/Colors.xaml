@@ -44,6 +44,7 @@
 
     <!-- POS -->
     <Color x:Key="PageBackground">#F1F5F9</Color>
+    <Color x:Key="AccentOrange">#EA580C</Color>
     <Color x:Key="AccentGreen">#22C55E</Color>
     <Color x:Key="AccentBlue">#3B82F6</Color>
     <Color x:Key="ErrorRed">#EF4444</Color>

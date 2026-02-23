@@ -1,8 +1,952 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="UiPrueba1.MainPage">
+             x:Class="UiPrueba1.MainPage"
+             BackgroundColor="{StaticResource PageBackground}"
+             Shell.NavBarIsVisible="False">
 
-   
+    <Grid ColumnDefinitions="320, *, 240" ColumnSpacing="0">
+
+        <!-- ══════════════════════════════════════════════════════ -->
+        <!-- Panel izquierdo: cliente + carro de compras           -->
+        <!-- ══════════════════════════════════════════════════════ -->
+        <Border Grid.Column="0"
+                BackgroundColor="White"
+                StrokeShape="RoundRectangle 12"
+                Stroke="{StaticResource Gray200Brush}"
+                StrokeThickness="1"
+                Margin="12,10,6,10"
+                Padding="0">
+
+            <Grid RowDefinitions="Auto, Auto, Auto, Auto, *, Auto" RowSpacing="0">
+
+                <!-- ── Fila 0: Info del cliente ── -->
+                <Grid Grid.Row="0"
+                      ColumnDefinitions="Auto, *" ColumnSpacing="12"
+                      Padding="14,14,14,10">
+                    <Border Grid.Column="0"
+                            BackgroundColor="{StaticResource Gray200}"
+                            StrokeShape="Ellipse" StrokeThickness="0"
+                            WidthRequest="54" HeightRequest="54">
+                        <Label Text="&#x1F464;" FontSize="26"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <VerticalStackLayout Grid.Column="1" Spacing="5" VerticalOptions="Center">
+                        <Label Text="Cliente general"
+                               FontSize="16" FontAttributes="Bold"
+                               TextColor="{StaticResource Gray900}"/>
+                        <Border BackgroundColor="{StaticResource GreenSurface}"
+                                StrokeShape="RoundRectangle 20" StrokeThickness="0"
+                                Padding="8,3" HorizontalOptions="Start">
+                            <Label Text="+ Frecuente" FontSize="12"
+                                   TextColor="{StaticResource AccentGreen}"/>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- ── Fila 1: Buscar cliente ── -->
+                <Border Grid.Row="1" Style="{StaticResource InputBox}"
+                        Margin="12,0,12,10">
+                    <Grid ColumnDefinitions="Auto, *">
+                        <Label Grid.Column="0" Text="&#x1F50D;&#xFE0E;" FontSize="13"
+                               TextColor="{StaticResource Gray400}"
+                               VerticalOptions="Center" Margin="0,0,4,0"/>
+                        <Entry Grid.Column="1"
+                               Placeholder="Buscar por nombre (F2)..."
+                               FontSize="13" BackgroundColor="Transparent"/>
+                    </Grid>
+                </Border>
+
+                <!-- ── Fila 2: Tabs Rápido / Categorías / Promos ── -->
+                <Border Grid.Row="2"
+                        BackgroundColor="{StaticResource InputBackground}"
+                        StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                        Stroke="{StaticResource Gray200Brush}"
+                        Margin="12,0,12,10" Padding="3">
+                    <Grid ColumnDefinitions="*, *, *" ColumnSpacing="2">
+                        <Button Grid.Column="0" Text="Rápido"
+                                BackgroundColor="{StaticResource AccentBlue}"
+                                TextColor="White" FontSize="13"
+                                CornerRadius="6" HeightRequest="34"
+                                BorderWidth="0" Padding="0"/>
+                        <Button Grid.Column="1" Text="Categorías"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource Gray500}"
+                                FontSize="13" CornerRadius="6" HeightRequest="34"
+                                BorderWidth="0" Padding="0"/>
+                        <Button Grid.Column="2" Text="Promos"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource Gray500}"
+                                FontSize="13" CornerRadius="6" HeightRequest="34"
+                                BorderWidth="0" Padding="0"/>
+                    </Grid>
+                </Border>
+
+                <!-- ── Fila 3: Encabezado "Toda" ── -->
+                <Border Grid.Row="3"
+                        BackgroundColor="{StaticResource InputBackground}"
+                        StrokeShape="RoundRectangle 0" StrokeThickness="0"
+                        Padding="14,5">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Grid.Column="0" Text="Toda:"
+                               FontSize="12" TextColor="{StaticResource Gray500}"/>
+                        <Label Grid.Column="1" Text="1 ↑"
+                               FontSize="12" TextColor="{StaticResource Gray400}"/>
+                    </Grid>
+                </Border>
+
+                <!-- ── Fila 4: Ítems del carro (scroll) ── -->
+                <ScrollView Grid.Row="4">
+                    <VerticalStackLayout Spacing="0">
+
+                        <!-- Ítem 1 -->
+                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="8"
+                              Padding="14,10,14,10">
+                            <Label Grid.Column="0" Text="2 ×" FontSize="12"
+                                   TextColor="{StaticResource Gray400}"
+                                   VerticalOptions="Start" Margin="0,2,0,0"/>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="Aceite Vegetal 900ml" FontSize="13"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Gray900}"
+                                       LineBreakMode="TailTruncation"/>
+                                <Label Text="020004" FontSize="11"
+                                       TextColor="{StaticResource Gray400}"/>
+                            </VerticalStackLayout>
+                            <Grid Grid.Column="2" ColumnDefinitions="32,32"
+                                  ColumnSpacing="4" VerticalOptions="Center">
+                                <Border Grid.Column="0"
+                                        BackgroundColor="{StaticResource InputBackground}"
+                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                                        Stroke="{StaticResource Gray200Brush}"
+                                        WidthRequest="32" HeightRequest="32" Padding="0">
+                                    <Label Text="−" FontSize="18"
+                                           TextColor="{StaticResource Gray600}"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Border Grid.Column="1"
+                                        BackgroundColor="{StaticResource InputBackground}"
+                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                                        Stroke="{StaticResource Gray200Brush}"
+                                        WidthRequest="32" HeightRequest="32" Padding="0">
+                                    <Label Text="+" FontSize="18"
+                                           TextColor="{StaticResource Gray600}"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                        <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="14,0"/>
+
+                        <!-- Ítem 2 -->
+                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="8"
+                              Padding="14,10,14,10">
+                            <Label Grid.Column="0" Text="1 ×" FontSize="12"
+                                   TextColor="{StaticResource Gray400}"
+                                   VerticalOptions="Start" Margin="0,2,0,0"/>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text='Caja Tornillos 3/4"' FontSize="13"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Gray900}"
+                                       LineBreakMode="TailTruncation"/>
+                                <Label Text="T0011" FontSize="11"
+                                       TextColor="{StaticResource Gray400}"/>
+                            </VerticalStackLayout>
+                            <Grid Grid.Column="2" ColumnDefinitions="32,32"
+                                  ColumnSpacing="4" VerticalOptions="Center">
+                                <Border Grid.Column="0"
+                                        BackgroundColor="{StaticResource InputBackground}"
+                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                                        Stroke="{StaticResource Gray200Brush}"
+                                        WidthRequest="32" HeightRequest="32" Padding="0">
+                                    <Label Text="−" FontSize="18"
+                                           TextColor="{StaticResource Gray600}"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Border Grid.Column="1"
+                                        BackgroundColor="{StaticResource InputBackground}"
+                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                                        Stroke="{StaticResource Gray200Brush}"
+                                        WidthRequest="32" HeightRequest="32" Padding="0">
+                                    <Label Text="+" FontSize="18"
+                                           TextColor="{StaticResource Gray600}"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                        <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="14,0"/>
+
+                        <!-- Ítem 3 -->
+                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="8"
+                              Padding="14,10,14,10">
+                            <Label Grid.Column="0" Text="1 ×" FontSize="12"
+                                   TextColor="{StaticResource Gray400}"
+                                   VerticalOptions="Start" Margin="0,2,0,0"/>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="Sandalias Hombre" FontSize="13"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Gray900}"
+                                       LineBreakMode="TailTruncation"/>
+                                <Label Text="703022" FontSize="11"
+                                       TextColor="{StaticResource Gray400}"/>
+                            </VerticalStackLayout>
+                            <Grid Grid.Column="2" ColumnDefinitions="32,32"
+                                  ColumnSpacing="4" VerticalOptions="Center">
+                                <Border Grid.Column="0"
+                                        BackgroundColor="{StaticResource InputBackground}"
+                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                                        Stroke="{StaticResource Gray200Brush}"
+                                        WidthRequest="32" HeightRequest="32" Padding="0">
+                                    <Label Text="−" FontSize="18"
+                                           TextColor="{StaticResource Gray600}"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Border Grid.Column="1"
+                                        BackgroundColor="{StaticResource InputBackground}"
+                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                                        Stroke="{StaticResource Gray200Brush}"
+                                        WidthRequest="32" HeightRequest="32" Padding="0">
+                                    <Label Text="+" FontSize="18"
+                                           TextColor="{StaticResource Gray600}"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                        <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="14,0"/>
+
+                        <!-- Ítem 4 -->
+                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="8"
+                              Padding="14,10,14,10">
+                            <Label Grid.Column="0" Text="1 ×" FontSize="12"
+                                   TextColor="{StaticResource Gray400}"
+                                   VerticalOptions="Start" Margin="0,2,0,0"/>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="Snakc 200g" FontSize="13"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Gray900}"
+                                       LineBreakMode="TailTruncation"/>
+                                <Label Text="080016" FontSize="11"
+                                       TextColor="{StaticResource Gray400}"/>
+                            </VerticalStackLayout>
+                            <Grid Grid.Column="2" ColumnDefinitions="32,32"
+                                  ColumnSpacing="4" VerticalOptions="Center">
+                                <Border Grid.Column="0"
+                                        BackgroundColor="{StaticResource InputBackground}"
+                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                                        Stroke="{StaticResource Gray200Brush}"
+                                        WidthRequest="32" HeightRequest="32" Padding="0">
+                                    <Label Text="−" FontSize="18"
+                                           TextColor="{StaticResource Gray600}"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Border Grid.Column="1"
+                                        BackgroundColor="{StaticResource InputBackground}"
+                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                                        Stroke="{StaticResource Gray200Brush}"
+                                        WidthRequest="32" HeightRequest="32" Padding="0">
+                                    <Label Text="+" FontSize="18"
+                                           TextColor="{StaticResource Gray600}"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                        <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="14,0"/>
+
+                    </VerticalStackLayout>
+                </ScrollView>
+
+                <!-- ── Fila 5: Descuento · Impuestos · TOTAL · Botones ── -->
+                <VerticalStackLayout Grid.Row="5" Spacing="0">
+
+                    <BoxView Color="{StaticResource Gray200}" HeightRequest="1"/>
+
+                    <!-- Descuento -->
+                    <Grid ColumnDefinitions="*, Auto" Padding="14,8,14,3">
+                        <Label Grid.Column="0" Text="Descuento (F5)"
+                               FontSize="13" TextColor="{StaticResource Gray500}"/>
+                        <Label Grid.Column="1" Text="0 %"
+                               FontSize="13" TextColor="{StaticResource Gray500}"/>
+                    </Grid>
+
+                    <!-- Impuestos -->
+                    <Grid ColumnDefinitions="*, Auto" Padding="14,3,14,8">
+                        <Label Grid.Column="0" Text="Impuestos"
+                               FontSize="13" TextColor="{StaticResource Gray500}"/>
+                        <Label Grid.Column="1" Text="$1.50"
+                               FontSize="13" TextColor="{StaticResource Gray500}"/>
+                    </Grid>
+
+                    <!-- Barra TOTAL naranja -->
+                    <Border BackgroundColor="{StaticResource AccentOrange}"
+                            StrokeShape="RoundRectangle 0" StrokeThickness="0"
+                            Padding="14,12">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Label Grid.Column="0" Text="TOTAL:"
+                                   FontSize="17" FontAttributes="Bold"
+                                   TextColor="White" VerticalOptions="Center"/>
+                            <Label Grid.Column="1" Text="$27.25"
+                                   FontSize="26" FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalTextAlignment="End"
+                                   VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Botones F6 Facturar / F8 Pausar -->
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="8"
+                          Padding="12,10,12,6">
+                        <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource AccentBlue}"
+                                StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                HeightRequest="50" Padding="10,0">
+                            <Grid ColumnDefinitions="Auto, *">
+                                <Label Grid.Column="0" Text="F6"
+                                       TextColor="#BFDBFE" FontAttributes="Bold"
+                                       FontSize="14" VerticalOptions="Center"/>
+                                <Label Grid.Column="1" Text="Facturar"
+                                       TextColor="White" FontAttributes="Bold"
+                                       FontSize="15"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+                        <Border Grid.Column="1"
+                                BackgroundColor="{StaticResource Gray400}"
+                                StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                HeightRequest="50" Padding="10,0">
+                            <Grid ColumnDefinitions="Auto, *">
+                                <Label Grid.Column="0" Text="F8"
+                                       TextColor="#E5E7EB" FontAttributes="Bold"
+                                       FontSize="14" VerticalOptions="Center"/>
+                                <Label Grid.Column="1" Text="Pausar"
+                                       TextColor="White" FontAttributes="Bold"
+                                       FontSize="15"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <!-- Links F9 Limpiar / F9 FD -->
+                    <Grid ColumnDefinitions="*, *" Padding="12,0,12,14">
+                        <Label Grid.Column="0" Text="F9  Limpiar"
+                               FontSize="12" TextColor="{StaticResource Gray400}"
+                               HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="1" Text="F9  FD"
+                               FontSize="12" TextColor="{StaticResource Gray400}"
+                               HorizontalTextAlignment="Center"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+
+            </Grid>
+        </Border>
+
+        <!-- ══════════════════════════════════════════════════════ -->
+        <!-- Panel derecho: productos                              -->
+        <!-- ══════════════════════════════════════════════════════ -->
+        <Grid Grid.Column="1" RowDefinitions="Auto, Auto, Auto, *, Auto"
+              RowSpacing="0" Margin="6,10,12,10">
+
+            <!-- ── Fila 0: Barra de búsqueda + F2 F4 F8 ── -->
+            <Grid Grid.Row="0" ColumnDefinitions="*, Auto, Auto, Auto"
+                  ColumnSpacing="6" Margin="0,0,0,10">
+                <Border Grid.Column="0" Style="{StaticResource InputBox}">
+                    <Grid ColumnDefinitions="Auto, *">
+                        <Label Grid.Column="0" Text="&#x1F50D;&#xFE0E;" FontSize="13"
+                               TextColor="{StaticResource Gray400}"
+                               VerticalOptions="Center" Margin="0,0,4,0"/>
+                        <Entry Grid.Column="1"
+                               Placeholder="Buscar por código de barras o nombre..."
+                               FontSize="13" BackgroundColor="Transparent"/>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="1"
+                        BackgroundColor="{StaticResource AccentBlue}"
+                        StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                        WidthRequest="40" HeightRequest="40" Padding="0">
+                    <Label Text="F2" TextColor="White" FontAttributes="Bold"
+                           FontSize="13" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <Border Grid.Column="2"
+                        BackgroundColor="{StaticResource InputBackground}"
+                        StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                        Stroke="{StaticResource Gray200Brush}"
+                        WidthRequest="40" HeightRequest="40" Padding="0">
+                    <Label Text="F4" TextColor="{StaticResource Gray600}" FontAttributes="Bold"
+                           FontSize="13" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <Border Grid.Column="3"
+                        BackgroundColor="{StaticResource InputBackground}"
+                        StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                        Stroke="{StaticResource Gray200Brush}"
+                        WidthRequest="40" HeightRequest="40" Padding="0">
+                    <Label Text="F8" TextColor="{StaticResource Gray600}" FontAttributes="Bold"
+                           FontSize="13" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+            </Grid>
+
+            <!-- ── Fila 1: Categorías (tabs) ── -->
+            <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never"
+                        Margin="0,0,0,8">
+                <HorizontalStackLayout Spacing="8">
+                    <Border BackgroundColor="{StaticResource AccentBlue}"
+                            StrokeShape="RoundRectangle 20" StrokeThickness="0"
+                            Padding="14,8">
+                        <Label Text="🏷️ Rápido" TextColor="White" FontSize="13"/>
+                    </Border>
+                    <Border BackgroundColor="White"
+                            StrokeShape="RoundRectangle 20" StrokeThickness="1"
+                            Stroke="{StaticResource Gray200Brush}" Padding="14,8">
+                        <Label Text="🛒 Super" TextColor="{StaticResource Gray600}" FontSize="13"/>
+                    </Border>
+                    <Border BackgroundColor="White"
+                            StrokeShape="RoundRectangle 20" StrokeThickness="1"
+                            Stroke="{StaticResource Gray200Brush}" Padding="14,8">
+                        <Label Text="🔧 Ferreteria" TextColor="{StaticResource Gray600}" FontSize="13"/>
+                    </Border>
+                    <Border BackgroundColor="White"
+                            StrokeShape="RoundRectangle 20" StrokeThickness="1"
+                            Stroke="{StaticResource Gray200Brush}" Padding="14,8">
+                        <Label Text="👟 Calzado" TextColor="{StaticResource Gray600}" FontSize="13"/>
+                    </Border>
+                    <Border BackgroundColor="White"
+                            StrokeShape="RoundRectangle 20" StrokeThickness="1"
+                            Stroke="{StaticResource Gray200Brush}" Padding="14,8">
+                        <Label Text="🏠 Hogar" TextColor="{StaticResource Gray600}" FontSize="13"/>
+                    </Border>
+                </HorizontalStackLayout>
+            </ScrollView>
+
+            <!-- ── Fila 2: Breadcrumb + filtros ── -->
+            <Grid Grid.Row="2" ColumnDefinitions="*, Auto, Auto"
+                  Margin="0,0,0,8">
+                <Label Grid.Column="0"
+                       Text="📋 Ofertas  /  Super  /  Ferreteria  /  Calzado"
+                       FontSize="12" TextColor="{StaticResource Gray400}"
+                       VerticalOptions="Center"/>
+                <Border Grid.Column="1"
+                        BackgroundColor="{StaticResource InputBackground}"
+                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                        Stroke="{StaticResource Gray200Brush}"
+                        WidthRequest="32" HeightRequest="32" Padding="0">
+                    <Label Text="▼" FontSize="12" TextColor="{StaticResource Gray500}"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <Border Grid.Column="2"
+                        BackgroundColor="{StaticResource InputBackground}"
+                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                        Stroke="{StaticResource Gray200Brush}"
+                        WidthRequest="32" HeightRequest="32" Padding="0" Margin="6,0,0,0">
+                    <Label Text="⊞" FontSize="14" TextColor="{StaticResource Gray500}"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+            </Grid>
+
+            <!-- ── Fila 3: Grid de productos (scroll) ── -->
+            <ScrollView Grid.Row="3">
+                <Grid ColumnDefinitions="*, *, *" RowDefinitions="Auto, Auto, Auto, Auto"
+                      ColumnSpacing="10" RowSpacing="10">
+
+                    <!-- Producto 1: Aceite Vegetal 900ml -->
+                    <Border Grid.Row="0" Grid.Column="0"
+                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
+                            Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Border BackgroundColor="{StaticResource InputBackground}"
+                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                    HeightRequest="70" Padding="0">
+                                <Label Text="🫒" FontSize="30"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Aceite Vegetal 900ml" FontSize="12"
+                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
+                                   LineBreakMode="TailTruncation"/>
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="x6" FontSize="11" TextColor="{StaticResource Gray400}"/>
+                            </HorizontalStackLayout>
+                            <Label Text="$4.25" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Producto 2: Caja Tornillos 3/4" -->
+                    <Border Grid.Row="0" Grid.Column="1"
+                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
+                            Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Border BackgroundColor="{StaticResource InputBackground}"
+                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                    HeightRequest="70" Padding="0">
+                                <Label Text="🔩" FontSize="30"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text='Caja Tornillos 3/4"' FontSize="12"
+                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
+                                   LineBreakMode="TailTruncation"/>
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="x12" FontSize="11" TextColor="{StaticResource Gray400}"/>
+                            </HorizontalStackLayout>
+                            <Label Text="$5.00" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Producto 3: Snack 200g -->
+                    <Border Grid.Row="0" Grid.Column="2"
+                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
+                            Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Border BackgroundColor="{StaticResource InputBackground}"
+                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                    HeightRequest="70" Padding="0">
+                                <Label Text="🍿" FontSize="30"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Snack 200g" FontSize="12"
+                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
+                                   LineBreakMode="TailTruncation"/>
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="x15" FontSize="11" TextColor="{StaticResource Gray400}"/>
+                            </HorizontalStackLayout>
+                            <Label Text="$1.95" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Producto 4: Caja Clavos 2x1" -->
+                    <Border Grid.Row="1" Grid.Column="0"
+                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
+                            Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Border BackgroundColor="{StaticResource InputBackground}"
+                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                    HeightRequest="70" Padding="0">
+                                <Label Text="📦" FontSize="30"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text='Caja Clavos 2x1"' FontSize="12"
+                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
+                                   LineBreakMode="TailTruncation"/>
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="x8" FontSize="11" TextColor="{StaticResource Gray400}"/>
+                            </HorizontalStackLayout>
+                            <Label Text="$4.75" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Producto 5: Leche Entera Litro -->
+                    <Border Grid.Row="1" Grid.Column="1"
+                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
+                            Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Border BackgroundColor="{StaticResource InputBackground}"
+                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                    HeightRequest="70" Padding="0">
+                                <Label Text="🥛" FontSize="30"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Leche Entera Litro" FontSize="12"
+                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
+                                   LineBreakMode="TailTruncation"/>
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="x20" FontSize="11" TextColor="{StaticResource Gray400}"/>
+                            </HorizontalStackLayout>
+                            <Label Text="$1.80" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Producto 6: Martillo 16oz Pro -->
+                    <Border Grid.Row="1" Grid.Column="2"
+                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
+                            Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Border BackgroundColor="{StaticResource InputBackground}"
+                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                    HeightRequest="70" Padding="0">
+                                <Label Text="🔨" FontSize="30"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Martillo 16oz Pro" FontSize="12"
+                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
+                                   LineBreakMode="TailTruncation"/>
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="x8" FontSize="11" TextColor="{StaticResource Gray400}"/>
+                            </HorizontalStackLayout>
+                            <Label Text="$7.50" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Producto 7: Snack 200g (otro) -->
+                    <Border Grid.Row="2" Grid.Column="0"
+                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
+                            Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Border BackgroundColor="{StaticResource InputBackground}"
+                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                    HeightRequest="70" Padding="0">
+                                <Label Text="🍪" FontSize="30"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Snack 200g" FontSize="12"
+                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
+                                   LineBreakMode="TailTruncation"/>
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="x15" FontSize="11" TextColor="{StaticResource Gray400}"/>
+                            </HorizontalStackLayout>
+                            <Label Text="$1.95" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Producto 8: Coca Cola 2 Litros -->
+                    <Border Grid.Row="2" Grid.Column="1"
+                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
+                            Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Border BackgroundColor="{StaticResource InputBackground}"
+                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                    HeightRequest="70" Padding="0">
+                                <Label Text="🥤" FontSize="30"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Coca Cola 2 Litros" FontSize="12"
+                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
+                                   LineBreakMode="TailTruncation"/>
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="x0" FontSize="11" TextColor="{StaticResource Gray400}"/>
+                            </HorizontalStackLayout>
+                            <Label Text="$2.40" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Producto 9: Sandalias Hombre -->
+                    <Border Grid.Row="2" Grid.Column="2"
+                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
+                            Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Border BackgroundColor="{StaticResource InputBackground}"
+                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                    HeightRequest="70" Padding="0">
+                                <Label Text="🩴" FontSize="30"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Sandalias Hombre" FontSize="12"
+                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
+                                   LineBreakMode="TailTruncation"/>
+                            <Label Text="$12.50" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Producto 10 -->
+                    <Border Grid.Row="3" Grid.Column="0"
+                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
+                            Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Border BackgroundColor="{StaticResource InputBackground}"
+                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                    HeightRequest="70" Padding="0">
+                                <Label Text="🧣" FontSize="30"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Sandalias Hombre" FontSize="12"
+                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
+                                   LineBreakMode="TailTruncation"/>
+                            <Label Text="$12.50" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Producto 11: Zapatillas Deportivas -->
+                    <Border Grid.Row="3" Grid.Column="2"
+                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
+                            Padding="10">
+                        <VerticalStackLayout Spacing="4">
+                            <Border BackgroundColor="{StaticResource InputBackground}"
+                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                                    HeightRequest="70" Padding="0">
+                                <Label Text="👟" FontSize="30"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Zapatillas Deportivas" FontSize="12"
+                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
+                                   LineBreakMode="TailTruncation"/>
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="299721" FontSize="11" TextColor="{StaticResource Gray400}"/>
+                            </HorizontalStackLayout>
+                            <Label Text="$45.00" FontSize="14" FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                </Grid>
+            </ScrollView>
+
+            <!-- ── Fila 4: Botones de acción (sin teclado numérico) ── -->
+            <Grid Grid.Row="4" ColumnDefinitions="*, Auto, Auto"
+                  ColumnSpacing="8" Margin="0,10,0,0">
+
+                <!-- F8 Facturar -->
+                <Border Grid.Column="0"
+                        BackgroundColor="{StaticResource InputBackground}"
+                        StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                        Stroke="{StaticResource Gray200Brush}"
+                        HeightRequest="46" Padding="14,0">
+                    <Label Text="F8  Facturar F8" FontSize="13"
+                           FontAttributes="Bold" TextColor="{StaticResource Gray600}"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+
+                <!-- Pesos F7 -->
+                <Border Grid.Column="1"
+                        BackgroundColor="{StaticResource AccentGreen}"
+                        StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                        HeightRequest="46" Padding="16,0">
+                    <Label Text="💵 Pesos F7" FontSize="13"
+                           FontAttributes="Bold" TextColor="White"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+
+                <!-- Ticket F8 -->
+                <Border Grid.Column="2"
+                        BackgroundColor="{StaticResource InputBackground}"
+                        StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                        Stroke="{StaticResource Gray200Brush}"
+                        HeightRequest="46" Padding="16,0">
+                    <Label Text="🖨️ Ticket F8" FontSize="13"
+                           FontAttributes="Bold" TextColor="{StaticResource Gray600}"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+            </Grid>
+
+        </Grid>
+
+        <!-- ══════════════════════════════════════════════════════ -->
+        <!-- Panel derecho: cobro / pago                           -->
+        <!-- ══════════════════════════════════════════════════════ -->
+        <Border Grid.Column="2"
+                BackgroundColor="White"
+                StrokeShape="RoundRectangle 12"
+                Stroke="{StaticResource Gray200Brush}"
+                StrokeThickness="1"
+                Margin="6,10,12,10"
+                Padding="0">
+
+            <ScrollView>
+                <VerticalStackLayout Spacing="0" Padding="14,14">
+
+                    <!-- TOTAL -->
+                    <Grid ColumnDefinitions="Auto, *" Margin="0,0,0,4">
+                        <Label Grid.Column="0" Text="TOTAL"
+                               FontSize="14" FontAttributes="Bold"
+                               TextColor="{StaticResource Gray600}"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="1" Text="$27.25"
+                               FontSize="24" FontAttributes="Bold"
+                               TextColor="{StaticResource Gray900}"
+                               HorizontalTextAlignment="End"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                    <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="0,6,0,6"/>
+
+                    <!-- Recibido -->
+                    <Grid ColumnDefinitions="Auto, *" Margin="0,0,0,2">
+                        <Label Grid.Column="0" Text="Recibido"
+                               FontSize="13" TextColor="{StaticResource AccentGreen}"
+                               FontAttributes="Bold" VerticalOptions="Center"/>
+                        <Label Grid.Column="1" Text="$35.00"
+                               FontSize="18" FontAttributes="Bold"
+                               TextColor="{StaticResource Gray900}"
+                               HorizontalTextAlignment="End"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- Cambio -->
+                    <Grid ColumnDefinitions="Auto, *" Margin="0,0,0,6">
+                        <Label Grid.Column="0" Text="Canto :"
+                               FontSize="13" TextColor="{StaticResource Gray500}"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="1" Text="$7.75"
+                               FontSize="18" FontAttributes="Bold"
+                               TextColor="{StaticResource Gray900}"
+                               HorizontalTextAlignment="End"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                    <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="0,4,0,10"/>
+
+                    <!-- Efectivo (F6) -->
+                    <Border BackgroundColor="{StaticResource AccentGreen}"
+                            StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                            HeightRequest="44" Padding="12,0" Margin="0,0,0,8">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Label Grid.Column="0" Text="💵" FontSize="16"
+                                   VerticalOptions="Center" Margin="0,0,6,0"/>
+                            <Label Grid.Column="1" Text="Efectivo (F6)"
+                                   TextColor="White" FontAttributes="Bold"
+                                   FontSize="14" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Tarjeta (F7) -->
+                    <Border BackgroundColor="{StaticResource AccentBlue}"
+                            StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                            HeightRequest="44" Padding="12,0" Margin="0,0,0,8">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Label Grid.Column="0" Text="💳" FontSize="16"
+                                   VerticalOptions="Center" Margin="0,0,6,0"/>
+                            <Label Grid.Column="1" Text="Tarjeta (F7)"
+                                   TextColor="White" FontAttributes="Bold"
+                                   FontSize="14" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- SINPE/QR (F8) -->
+                    <Border BackgroundColor="White"
+                            StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                            Stroke="{StaticResource Gray200Brush}"
+                            HeightRequest="44" Padding="12,0" Margin="0,0,0,8">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Label Grid.Column="0" Text="📱" FontSize="16"
+                                   VerticalOptions="Center" Margin="0,0,6,0"/>
+                            <Label Grid.Column="1" Text="SINPE/QR (F8)"
+                                   TextColor="{StaticResource Gray600}" FontAttributes="Bold"
+                                   FontSize="14" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Mixto (F9) -->
+                    <Border BackgroundColor="White"
+                            StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                            Stroke="{StaticResource Gray200Brush}"
+                            HeightRequest="44" Padding="12,0" Margin="0,0,0,12">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Label Grid.Column="0" Text="💱" FontSize="16"
+                                   VerticalOptions="Center" Margin="0,0,6,0"/>
+                            <Label Grid.Column="1" Text="Mixto (F9)"
+                                   TextColor="{StaticResource Gray600}" FontAttributes="Bold"
+                                   FontSize="14" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- F10 Cobrar -->
+                    <Border BackgroundColor="{StaticResource AccentGreen}"
+                            StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                            HeightRequest="56" Padding="14,0" Margin="0,0,0,12">
+                        <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
+                            <Label Grid.Column="0" Text="F10"
+                                   TextColor="White" FontAttributes="Bold"
+                                   FontSize="18" VerticalOptions="Center"/>
+                            <Label Grid.Column="1" Text="Cobrar"
+                                   TextColor="White" FontAttributes="Bold"
+                                   FontSize="20"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Imprimir Ticket toggle -->
+                    <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,8">
+                        <Label Grid.Column="0" Text="Imprimir Ticket"
+                               FontSize="13" TextColor="{StaticResource Gray600}"
+                               VerticalOptions="Center"/>
+                        <Switch Grid.Column="1"
+                                IsToggled="True"
+                                OnColor="{StaticResource AccentGreen}"
+                                VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- Enviar a -->
+                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="8" Margin="0,0,0,10">
+                        <Label Grid.Column="0" Text="Enviar a:"
+                               FontSize="13" TextColor="{StaticResource Gray500}"
+                               VerticalOptions="Center"/>
+                        <Border Grid.Column="1"
+                                BackgroundColor="{StaticResource InputBackground}"
+                                StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                                Stroke="{StaticResource Gray200Brush}"
+                                Padding="8,0" HeightRequest="34">
+                            <Picker SelectedIndex="0"
+                                    FontSize="12"
+                                    TextColor="{StaticResource Gray600}"
+                                    BackgroundColor="Transparent"
+                                    HorizontalOptions="Fill">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>No enviar</x:String>
+                                        <x:String>Email</x:String>
+                                        <x:String>WhatsApp</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Border>
+                    </Grid>
+
+                    <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="0,4,0,10"/>
+
+                    <!-- Facturas Pendientes -->
+                    <Border BackgroundColor="White"
+                            StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                            Stroke="{StaticResource Gray200Brush}"
+                            HeightRequest="40" Padding="12,0" Margin="0,0,0,6">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Label Grid.Column="0" Text="📋" FontSize="14"
+                                   VerticalOptions="Center" Margin="0,0,6,0"/>
+                            <Label Grid.Column="1" Text="Facturas Pendientes"
+                                   TextColor="{StaticResource Gray600}"
+                                   FontSize="13" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Imprimir Ticket (link) -->
+                    <Border BackgroundColor="White"
+                            StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                            Stroke="{StaticResource Gray200Brush}"
+                            HeightRequest="40" Padding="12,0" Margin="0,0,0,6">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Label Grid.Column="0" Text="🖨️" FontSize="14"
+                                   VerticalOptions="Center" Margin="0,0,6,0"/>
+                            <Label Grid.Column="1" Text="Imprimir Ticket"
+                                   TextColor="{StaticResource Gray600}"
+                                   FontSize="13" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Volver a la Orden -->
+                    <Border BackgroundColor="White"
+                            StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                            Stroke="{StaticResource Gray200Brush}"
+                            HeightRequest="40" Padding="12,0" Margin="0,0,0,0">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Label Grid.Column="0" Text="←" FontSize="14"
+                                   TextColor="{StaticResource Gray500}"
+                                   VerticalOptions="Center" Margin="0,0,6,0"/>
+                            <Label Grid.Column="1" Text="Volver a la Orden"
+                                   TextColor="{StaticResource Gray600}"
+                                   FontSize="13" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Border>
+
+    </Grid>
 
 </ContentPage>

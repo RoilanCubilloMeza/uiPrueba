@@ -8,6 +8,11 @@
     Title="POS Sistema">
 
     <ShellContent
+        Title="POS"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage"/>
+
+    <ShellContent
         Title="Cliente"
         ContentTemplate="{DataTemplate pages:ClientePage}"
         Route="ClientePage"/>
