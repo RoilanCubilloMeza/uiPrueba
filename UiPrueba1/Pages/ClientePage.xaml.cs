@@ -10,16 +10,16 @@ namespace UiPrueba1.Pages
             BindingContext = new ClienteViewModel();
         }
 
-        private void OnClienteIdCompleted(object sender, EventArgs e)
+        private void OnClientIdCompleted(object sender, EventArgs e)
         {
             if (BindingContext is ClienteViewModel vm)
-                vm.SincronizarCommand.Execute(null);
+                vm.SyncCommand.Execute(null);
         }
 
-        private void OnCodActividadCompleted(object sender, EventArgs e)
+        private void OnActivityCodeCompleted(object sender, EventArgs e)
         {
             if (BindingContext is ClienteViewModel vm)
-                vm.BuscarActividadCommand.Execute(null);
+                vm.SearchActivityCommand.Execute(null);
         }
     }
 }

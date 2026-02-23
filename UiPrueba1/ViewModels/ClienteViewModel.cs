@@ -13,63 +13,63 @@ namespace UiPrueba1.ViewModels
     public class ClienteViewModel : INotifyPropertyChanged
     {
 
-        private string _clienteId = string.Empty;
-        private string _tipoId = "Cédula Física";
-        private string _nombre = string.Empty;
-        private bool _esReceptor;
-        private string _telefono = string.Empty;
+        private string _clientId = string.Empty;
+        private string _idType = "Cédula Física";
+        private string _name = string.Empty;
+        private bool _isReceiver;
+        private string _phone = string.Empty;
         private string _email = string.Empty;
-        private string? _provinciaSeleccionada;
-        private string? _cantonSeleccionado;
-        private string? _distritoSeleccionado;
-        private string _direccion = string.Empty;
-        private string _codActividad = string.Empty;
-        private string _descActividad = string.Empty;
+        private string? _selectedProvince;
+        private string? _selectedCanton;
+        private string? _selectedDistrict;
+        private string _address = string.Empty;
+        private string _activityCode = string.Empty;
+        private string _activityDescription = string.Empty;
         private SyncStatus _syncStatus = SyncStatus.Idle;
-        private string _mensajeValidacion = string.Empty;
+        private string _validationMessage = string.Empty;
 
 
-        public string ClienteId
+        public string ClientId
         {
-            get => _clienteId;
-            set { _clienteId = value; OnPropertyChanged(); }
+            get => _clientId;
+            set { _clientId = value; OnPropertyChanged(); }
         }
 
-        public string TipoId
+        public string IdType
         {
-            get => _tipoId;
+            get => _idType;
             set
             {
-                _tipoId = value;
+                _idType = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(EsFisico));
-                OnPropertyChanged(nameof(EsJuridico));
-                OnPropertyChanged(nameof(EsExtranjero));
+                OnPropertyChanged(nameof(IsPhysicalId));
+                OnPropertyChanged(nameof(IsLegalId));
+                OnPropertyChanged(nameof(IsForeignId));
             }
         }
 
-        public string Nombre
+        public string Name
         {
-            get => _nombre;
-            set { _nombre = value; OnPropertyChanged(); }
+            get => _name;
+            set { _name = value; OnPropertyChanged(); }
         }
 
-        public bool EsReceptor
+        public bool IsReceiver
         {
-            get => _esReceptor;
+            get => _isReceiver;
             set
             {
-                _esReceptor = value;
+                _isReceiver = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(MostrarDatosFiscales));
-                OnPropertyChanged(nameof(NoEsReceptor));
+                OnPropertyChanged(nameof(ShowTaxData));
+                OnPropertyChanged(nameof(IsNotReceiver));
             }
         }
 
-        public string Telefono
+        public string Phone
         {
-            get => _telefono;
-            set { _telefono = value; OnPropertyChanged(); }
+            get => _phone;
+            set { _phone = value; OnPropertyChanged(); }
         }
 
         public string Email
@@ -78,60 +78,60 @@ namespace UiPrueba1.ViewModels
             set { _email = value; OnPropertyChanged(); }
         }
 
-        public string? ProvinciaSeleccionada
+        public string? SelectedProvince
         {
-            get => _provinciaSeleccionada;
+            get => _selectedProvince;
             set
             {
-                _provinciaSeleccionada = value;
+                _selectedProvince = value;
                 OnPropertyChanged();
-                CargarCantones(value);
-                CantonSeleccionado = null;
-                OnPropertyChanged(nameof(CanTenerCanton));
+                LoadCantons(value);
+                SelectedCanton = null;
+                OnPropertyChanged(nameof(CanHaveCanton));
                 OnPropertyChanged(nameof(CantonOpacity));
             }
         }
 
-        public string? CantonSeleccionado
+        public string? SelectedCanton
         {
-            get => _cantonSeleccionado;
+            get => _selectedCanton;
             set
             {
-                _cantonSeleccionado = value;
+                _selectedCanton = value;
                 OnPropertyChanged();
-                CargarDistritos(value);
-                DistritoSeleccionado = null;
-                OnPropertyChanged(nameof(CanTenerDistrito));
-                OnPropertyChanged(nameof(DistritoOpacity));
+                LoadDistricts(value);
+                SelectedDistrict = null;
+                OnPropertyChanged(nameof(CanHaveDistrict));
+                OnPropertyChanged(nameof(DistrictOpacity));
             }
         }
 
-        public string? DistritoSeleccionado
+        public string? SelectedDistrict
         {
-            get => _distritoSeleccionado;
-            set { _distritoSeleccionado = value; OnPropertyChanged(); }
+            get => _selectedDistrict;
+            set { _selectedDistrict = value; OnPropertyChanged(); }
         }
 
-        public string Direccion
+        public string Address
         {
-            get => _direccion;
-            set { _direccion = value; OnPropertyChanged(); }
+            get => _address;
+            set { _address = value; OnPropertyChanged(); }
         }
 
-        public string CodActividad
+        public string ActivityCode
         {
-            get => _codActividad;
-            set { _codActividad = value; OnPropertyChanged(); }
+            get => _activityCode;
+            set { _activityCode = value; OnPropertyChanged(); }
         }
 
-        public string DescActividad
+        public string ActivityDescription
         {
-            get => _descActividad;
+            get => _activityDescription;
             set
             {
-                _descActividad = value;
+                _activityDescription = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(TieneDescActividad));
+                OnPropertyChanged(nameof(HasActivityDescription));
             }
         }
 
@@ -142,47 +142,47 @@ namespace UiPrueba1.ViewModels
             {
                 _syncStatus = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(SyncTexto));
-                OnPropertyChanged(nameof(EstasSincronizando));
-                OnPropertyChanged(nameof(NoEstasSincronizando));
+                OnPropertyChanged(nameof(SyncText));
+                OnPropertyChanged(nameof(IsSyncing));
+                OnPropertyChanged(nameof(IsNotSyncing));
                 OnPropertyChanged(nameof(SyncButtonBackground));
                 OnPropertyChanged(nameof(SyncButtonTextColor));
             }
         }
 
-        public string MensajeValidacion
+        public string ValidationMessage
         {
-            get => _mensajeValidacion;
+            get => _validationMessage;
             set
             {
-                _mensajeValidacion = value;
+                _validationMessage = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(TieneMensajeValidacion));
+                OnPropertyChanged(nameof(HasValidationMessage));
             }
         }
 
         // ──────── Computed (bool) ────────
 
-        public bool MostrarDatosFiscales => _esReceptor;
-        public bool NoEsReceptor         => !_esReceptor;
-        public bool EsFisico             => _tipoId == "Cédula Física";
-        public bool EsJuridico           => _tipoId == "Cédula Jurídica";
-        public bool EsExtranjero         => _tipoId == "Extranjero No Domiciliado";
-        public bool EstasSincronizando   => _syncStatus == SyncStatus.Syncing;
-        public bool NoEstasSincronizando => _syncStatus != SyncStatus.Syncing;
-        public bool TieneMensajeValidacion => !string.IsNullOrEmpty(_mensajeValidacion);
-        public bool TieneDescActividad   => !string.IsNullOrEmpty(_descActividad);
-        public bool CanTenerCanton       => !string.IsNullOrEmpty(_provinciaSeleccionada);
-        public bool CanTenerDistrito     => !string.IsNullOrEmpty(_cantonSeleccionado);
+        public bool ShowTaxData          => _isReceiver;
+        public bool IsNotReceiver        => !_isReceiver;
+        public bool IsPhysicalId         => _idType == "Cédula Física";
+        public bool IsLegalId            => _idType == "Cédula Jurídica";
+        public bool IsForeignId          => _idType == "Extranjero No Domiciliado";
+        public bool IsSyncing            => _syncStatus == SyncStatus.Syncing;
+        public bool IsNotSyncing         => _syncStatus != SyncStatus.Syncing;
+        public bool HasValidationMessage => !string.IsNullOrEmpty(_validationMessage);
+        public bool HasActivityDescription => !string.IsNullOrEmpty(_activityDescription);
+        public bool CanHaveCanton        => !string.IsNullOrEmpty(_selectedProvince);
+        public bool CanHaveDistrict      => !string.IsNullOrEmpty(_selectedCanton);
 
         // ──────── Computed (double) ────────
 
-        public double CantonOpacity   => CanTenerCanton   ? 1.0 : 0.45;
-        public double DistritoOpacity => CanTenerDistrito ? 1.0 : 0.45;
+        public double CantonOpacity   => CanHaveCanton   ? 1.0 : 0.45;
+        public double DistrictOpacity => CanHaveDistrict ? 1.0 : 0.45;
 
         // ──────── Computed (string) ────────
 
-        public string SyncTexto => _syncStatus switch
+        public string SyncText => _syncStatus switch
         {
             SyncStatus.Syncing  => "Sincronizando...",
             SyncStatus.Synced   => "Sincronizado ✓",
@@ -202,11 +202,11 @@ namespace UiPrueba1.ViewModels
 
         // ──────── Collections ────────
 
-        public ObservableCollection<string> Provincias { get; } = new();
-        public ObservableCollection<string> Cantones   { get; } = new();
-        public ObservableCollection<string> Distritos  { get; } = new();
+        public ObservableCollection<string> Provinces { get; } = new();
+        public ObservableCollection<string> Cantons   { get; } = new();
+        public ObservableCollection<string> Districts { get; } = new();
 
-        public IReadOnlyList<string> TiposIdentificacion { get; } = new[]
+        public IReadOnlyList<string> IdentificationTypes { get; } = new[]
         {
             "Cédula Física",
             "Cédula Jurídica",
@@ -218,35 +218,35 @@ namespace UiPrueba1.ViewModels
 
         // ──────── Commands ────────
 
-        public ICommand SincronizarCommand      { get; }
-        public ICommand GuardarCommand          { get; }
-        public ICommand GuardarYVolverCommand   { get; }
-        public ICommand CancelarCommand         { get; }
-        public ICommand BuscarActividadCommand  { get; }
+        public ICommand SyncCommand           { get; }
+        public ICommand SaveCommand           { get; }
+        public ICommand SaveAndReturnCommand  { get; }
+        public ICommand CancelCommand         { get; }
+        public ICommand SearchActivityCommand { get; }
 
         public ClienteViewModel()
         {
-            SincronizarCommand      = new Command(async () => await EjecutarSincronizar());
-            GuardarCommand          = new Command(async () => await EjecutarGuardar());
-            GuardarYVolverCommand   = new Command(async () => await EjecutarGuardarYVolver());
-            CancelarCommand         = new Command(async () => await EjecutarCancelar());
-            BuscarActividadCommand  = new Command(async () => await EjecutarBuscarActividad());
+            SyncCommand           = new Command(async () => await ExecuteSync());
+            SaveCommand           = new Command(async () => await ExecuteSave());
+            SaveAndReturnCommand  = new Command(async () => await ExecuteSaveAndReturn());
+            CancelCommand         = new Command(async () => await ExecuteCancel());
+            SearchActivityCommand = new Command(async () => await ExecuteSearchActivity());
 
-            CargarProvincias();
+            LoadProvinces();
         }
 
         // ──────── Data Loaders ────────
 
-        private void CargarProvincias()
+        private void LoadProvinces()
         {
             foreach (var p in new[] { "San José", "Alajuela", "Cartago", "Heredia", "Guanacaste", "Puntarenas", "Limón" })
-                Provincias.Add(p);
+                Provinces.Add(p);
         }
 
-        private void CargarCantones(string? provincia)
+        private void LoadCantons(string? province)
         {
-            Cantones.Clear();
-            if (string.IsNullOrEmpty(provincia)) return;
+            Cantons.Clear();
+            if (string.IsNullOrEmpty(province)) return;
 
             var data = new Dictionary<string, string[]>
             {
@@ -259,32 +259,32 @@ namespace UiPrueba1.ViewModels
                 ["Limón"]      = ["Limón", "Pococí", "Siquirres", "Talamanca", "Matina", "Guácimo"]
             };
 
-            if (data.TryGetValue(provincia, out var cantones))
-                foreach (var c in cantones) Cantones.Add(c);
+            if (data.TryGetValue(province, out var cantons))
+                foreach (var c in cantons) Cantons.Add(c);
         }
 
-        private void CargarDistritos(string? canton)
+        private void LoadDistricts(string? canton)
         {
-            Distritos.Clear();
+            Districts.Clear();
             if (string.IsNullOrEmpty(canton)) return;
 
             // TODO: Replace with real district data from API/DB
-            foreach (var sufijo in new[] { "Centro", "Norte", "Sur", "Este", "Oeste" })
-                Distritos.Add($"{canton} {sufijo}");
+            foreach (var suffix in new[] { "Centro", "Norte", "Sur", "Este", "Oeste" })
+                Districts.Add($"{canton} {suffix}");
         }
 
         // ──────── Command Handlers ────────
 
-        private async Task EjecutarSincronizar()
+        private async Task ExecuteSync()
         {
-            if (string.IsNullOrWhiteSpace(ClienteId)) return;
+            if (string.IsNullOrWhiteSpace(ClientId)) return;
 
             SyncStatus = SyncStatus.Syncing;
             await Task.Delay(1500); // TODO: Replace with real Hacienda API call
 
-            if (ClienteId.Length >= 9)
+            if (ClientId.Length >= 9)
             {
-                Nombre     = "Nombre Sugerido (Hacienda)";
+                Name       = "Nombre Sugerido (Hacienda)";
                 SyncStatus = SyncStatus.Synced;
             }
             else
@@ -293,35 +293,35 @@ namespace UiPrueba1.ViewModels
             }
         }
 
-        private async Task EjecutarBuscarActividad()
+        private async Task ExecuteSearchActivity()
         {
-            if (string.IsNullOrWhiteSpace(CodActividad)) return;
+            if (string.IsNullOrWhiteSpace(ActivityCode)) return;
 
             await Task.Delay(300); // TODO: Replace with real activity lookup
-            DescActividad = "Venta al por menor de alimentos, bebidas y tabaco";
+            ActivityDescription = "Venta al por menor de alimentos, bebidas y tabaco";
         }
 
-        private async Task EjecutarGuardar()
+        private async Task ExecuteSave()
         {
-            if (!Validar()) return;
+            if (!Validate()) return;
 
             // TODO: Save via repository/service
             await Task.CompletedTask;
             await TryNavigateBack();
         }
 
-        private async Task EjecutarGuardarYVolver()
+        private async Task ExecuteSaveAndReturn()
         {
-            if (!Validar()) return;
+            if (!Validate()) return;
 
             // TODO: Save and navigate back to invoice screen
             await Task.CompletedTask;
             await TryNavigateBack();
         }
 
-        private async Task EjecutarCancelar()
+        private async Task ExecuteCancel()
         {
-            MensajeValidacion = string.Empty;
+            ValidationMessage = string.Empty;
             await TryNavigateBack();
         }
 
@@ -331,59 +331,59 @@ namespace UiPrueba1.ViewModels
             catch { /* Root page — no parent to navigate to */ }
         }
 
-        private bool Validar()
+        private bool Validate()
         {
-            var errores = new List<string>();
+            var errors = new List<string>();
 
-            if (string.IsNullOrWhiteSpace(ClienteId))
-                errores.Add("• El ID del cliente es requerido.");
+            if (string.IsNullOrWhiteSpace(ClientId))
+                errors.Add("• El ID del cliente es requerido.");
 
-            if (string.IsNullOrWhiteSpace(Nombre))
-                errores.Add("• El nombre del cliente es requerido.");
+            if (string.IsNullOrWhiteSpace(Name))
+                errors.Add("• El nombre del cliente es requerido.");
 
-            if (EsReceptor)
+            if (IsReceiver)
             {
-                if (string.IsNullOrWhiteSpace(Telefono))
-                    errores.Add("• El teléfono es requerido.");
-                else if (!EsTelefonoValido(Telefono))
-                    errores.Add("• El teléfono no es válido (ej: 8888-8888).");
+                if (string.IsNullOrWhiteSpace(Phone))
+                    errors.Add("• El teléfono es requerido.");
+                else if (!IsValidPhone(Phone))
+                    errors.Add("• El teléfono no es válido (ej: 8888-8888).");
 
                 if (string.IsNullOrWhiteSpace(Email))
-                    errores.Add("• El correo electrónico es requerido.");
-                else if (!EsEmailValido(Email))
-                    errores.Add("• El correo electrónico no es válido (ej: usuario@dominio.com).");
+                    errors.Add("• El correo electrónico es requerido.");
+                else if (!IsValidEmail(Email))
+                    errors.Add("• El correo electrónico no es válido (ej: usuario@dominio.com).");
 
-                if (string.IsNullOrWhiteSpace(ProvinciaSeleccionada))
-                    errores.Add("• La provincia es requerida.");
+                if (string.IsNullOrWhiteSpace(SelectedProvince))
+                    errors.Add("• La provincia es requerida.");
 
-                if (string.IsNullOrWhiteSpace(CantonSeleccionado))
-                    errores.Add("• El cantón es requerido.");
+                if (string.IsNullOrWhiteSpace(SelectedCanton))
+                    errors.Add("• El cantón es requerido.");
 
-                if (string.IsNullOrWhiteSpace(DistritoSeleccionado))
-                    errores.Add("• El distrito es requerido.");
+                if (string.IsNullOrWhiteSpace(SelectedDistrict))
+                    errors.Add("• El distrito es requerido.");
 
-                if (string.IsNullOrWhiteSpace(Direccion))
-                    errores.Add("• La dirección es requerida.");
+                if (string.IsNullOrWhiteSpace(Address))
+                    errors.Add("• La dirección es requerida.");
 
-                if (string.IsNullOrWhiteSpace(CodActividad))
-                    errores.Add("• El código de actividad es requerido.");
+                if (string.IsNullOrWhiteSpace(ActivityCode))
+                    errors.Add("• El código de actividad es requerido.");
             }
 
-            MensajeValidacion = errores.Count > 0
-                ? string.Join("\n", errores)
+            ValidationMessage = errors.Count > 0
+                ? string.Join("\n", errors)
                 : string.Empty;
 
-            return errores.Count == 0;
+            return errors.Count == 0;
         }
 
         private static readonly Regex _emailRegex =
             new(@"^[^@\s]+@[^@\s]+\.[^@\s]{2,}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private static readonly Regex _telefonoRegex =
+        private static readonly Regex _phoneRegex =
             new(@"^[\d\s\-\+\(\)]{7,15}$", RegexOptions.Compiled);
 
-        private static bool EsEmailValido(string email)    => _emailRegex.IsMatch(email.Trim());
-        private static bool EsTelefonoValido(string tel)   => _telefonoRegex.IsMatch(tel.Trim());
+        private static bool IsValidEmail(string email) => _emailRegex.IsMatch(email.Trim());
+        private static bool IsValidPhone(string phone) => _phoneRegex.IsMatch(phone.Trim());
 
         // ──────── INotifyPropertyChanged ────────
 
