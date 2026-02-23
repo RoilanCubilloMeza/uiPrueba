@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:UiPrueba1.Controls"
+             x:Class="UiPrueba1.Pages.ClientePage"
+             Title="Cliente"
+             BackgroundColor="{StaticResource PageBackground}"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <Grid ColumnDefinitions="0.8*, 1.0*, 1.2*"
+              ColumnSpacing="14"
+              Padding="18,16">
+
+         
+            <controls:SectionCard Grid.Column="0" Title="Identificación">
+                <VerticalStackLayout Spacing="0">
+
+                    <!-- ID Cliente -->
+                    <Label Text="ID Cliente" Style="{StaticResource FieldLabel}"/>
+                    <Border Style="{StaticResource InputBox}">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Entry Grid.Column="0"
+                                   Placeholder="Ingrese identificación..."
+                                   Text="{Binding ClienteId}"
+                                   Keyboard="Numeric"
+                                   ReturnType="Next"
+                                   IsEnabled="{Binding NoEstasSincronizando}"
+                                   BackgroundColor="Transparent"
+                                   FontSize="14"
+                                   Completed="OnClienteIdCompleted"/>
+                            <Label Grid.Column="1"
+                                   Text="&#x2398;"
+                                   FontSize="18"
+                                   TextColor="{StaticResource Gray300}"
+                                   VerticalOptions="Center"
+                                   Margin="4,0,2,0"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Sincronizar -->
+                    <Button Text="{Binding SyncTexto}"
+                            BackgroundColor="{Binding SyncButtonBackground}"
+                            TextColor="White"
+                            Command="{Binding SincronizarCommand}"
+                            IsEnabled="{Binding NoEstasSincronizando}"
+                            HorizontalOptions="Fill"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            CornerRadius="8"
+                            HeightRequest="46"
+                            Margin="0,10,0,0"/>
+
+                    <ActivityIndicator IsRunning="{Binding EstasSincronizando}"
+                                       IsVisible="{Binding EstasSincronizando}"
+                                       Color="{StaticResource AccentGreen}"
+                                       HorizontalOptions="Center"
+                                       HeightRequest="20"
+                                       Margin="0,4,0,0"/>
+
+                    <!-- TipoID  -->
+                    <Border BackgroundColor="{StaticResource InputBackground}"
+                            StrokeShape="RoundRectangle 10"
+                            StrokeThickness="1"
+                            Stroke="{StaticResource Gray200Brush}"
+                            Margin="0,14,0,0"
+                            Padding="3">
+                        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="2">
+                            <Button Grid.Column="0"
+                                    Text="Físico"
+                                    Command="{Binding SeleccionarTipoIdCommand}"
+                                    CommandParameter="Fisico"
+                                    BackgroundColor="{Binding TipoFisicoBackground}"
+                                    TextColor="{Binding TipoFisicoTextColor}"
+                                    FontSize="13" BorderWidth="0" CornerRadius="8"
+                                    HeightRequest="36" Padding="0"/>
+                            <Button Grid.Column="1"
+                                    Text="Jurídico"
+                                    Command="{Binding SeleccionarTipoIdCommand}"
+                                    CommandParameter="Juridico"
+                                    BackgroundColor="{Binding TipoJuridicoBackground}"
+                                    TextColor="{Binding TipoJuridicoTextColor}"
+                                    FontSize="13" BorderWidth="0" CornerRadius="8"
+                                    HeightRequest="36" Padding="0"/>
+                            <Button Grid.Column="2"
+                                    Text="Extranjero"
+                                    Command="{Binding SeleccionarTipoIdCommand}"
+                                    CommandParameter="Extranjero"
+                                    BackgroundColor="{Binding TipoExtranjeroBackground}"
+                                    TextColor="{Binding TipoExtranjeroTextColor}"
+                                    FontSize="12" BorderWidth="0" CornerRadius="8"
+                                    HeightRequest="36" Padding="0"/>
+                        </Grid>
+                    </Border>
+
+                    <Label Text="Crea un registro nuevo para el cliente."
+                           Style="{StaticResource HelpText}"
+                           Margin="0,12,0,0"/>
+
+                </VerticalStackLayout>
+            </controls:SectionCard>
+
+        
+            <controls:SectionCard Grid.Column="1" Title="Datos del Cliente">
+                <VerticalStackLayout Spacing="0">
+
+                    <!-- Nombre -->
+                    <Label Text="Nombre Cliente" Style="{StaticResource FieldLabelDark}"/>
+                    <controls:FormEntry Placeholder="Juan Pérez"
+                                        Text="{Binding Nombre}"
+                                        IsEnabled="{Binding NoEstasSincronizando}"/>
+
+                    <BoxView Color="{StaticResource Gray200}" HeightRequest="1" Margin="0,14,0,12"/>
+
+                    <!-- Toggle ¿Es Receptor? -->
+                    <Border StrokeShape="RoundRectangle 10"
+                            StrokeThickness="1.5"
+                            Padding="12,10"
+                            Margin="0,2,0,0">
+                        <!-- OFF: gris sutil / ON: superficie verde con borde verde -->
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border"
+                                         Binding="{Binding EsReceptor}" Value="False">
+                                <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}"/>
+                                <Setter Property="Stroke"          Value="{StaticResource Gray200Brush}"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border"
+                                         Binding="{Binding EsReceptor}" Value="True">
+                                <Setter Property="BackgroundColor" Value="{StaticResource GreenSurface}"/>
+                                <Setter Property="Stroke"          Value="{StaticResource AccentGreenBrush}"/>
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                            <VerticalStackLayout Grid.Column="0" Spacing="3" VerticalOptions="Center">
+                                <Label Text="¿Es Receptor?"
+                                       FontSize="14" FontAttributes="Bold"
+                                       TextColor="{StaticResource Gray900}"/>
+                                <Label Text="Actívalo solo si requiere factura electrónica / envío por email"
+                                       Style="{StaticResource HelpText}"/>
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1"
+                                    IsToggled="{Binding EsReceptor}"
+                                    OnColor="{StaticResource AccentGreen}"
+                                    VerticalOptions="Center">
+                                <!-- OFF: thumb gris oscuro / ON: thumb blanco -->
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup x:Name="CheckedStates">
+                                            <VisualState x:Name="On">
+                                                <VisualState.Setters>
+                                                    <Setter Property="ThumbColor" Value="White"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Off">
+                                                <VisualState.Setters>
+                                                    <Setter Property="ThumbColor" Value="{StaticResource Gray500}"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                            </Switch>
+                        </Grid>
+                    </Border>
+
+                    <!-- Provincia + Cantón -->
+                    <VerticalStackLayout IsVisible="{Binding MostrarDatosFiscales}" Spacing="0">
+                        <BoxView Color="{StaticResource Gray200}" HeightRequest="1" Margin="0,14,0,10"/>
+
+                        <Grid ColumnDefinitions="Auto, *, Auto" Margin="0,0,0,6">
+                            <Label Grid.Column="0" Text="&#x1F4CD;" FontSize="14"
+                                   VerticalOptions="Center" Margin="0,0,6,0"/>
+                            <Label Grid.Column="1" Text="Provincia" FontSize="14"
+                                   FontAttributes="Bold" TextColor="{StaticResource Gray600}"
+                                   VerticalOptions="Center"/>
+                            <Label Grid.Column="2" Text="&#x2228;" FontSize="12"
+                                   TextColor="{StaticResource Gray400}" VerticalOptions="Center"/>
+                        </Grid>
+
+                        <controls:FormPicker ItemsSource="{Binding Provincias}"
+                                             SelectedItem="{Binding ProvinciaSeleccionada}"/>
+                        <controls:FormPicker ItemsSource="{Binding Cantones}"
+                                             SelectedItem="{Binding CantonSeleccionado}"
+                                             IsEnabled="{Binding CanTenerCanton}"
+                                             Opacity="{Binding CantonOpacity}"
+                                             Margin="0,8,0,0"/>
+                    </VerticalStackLayout>
+
+                    <BoxView HeightRequest="18" BackgroundColor="Transparent"/>
+
+                    <!-- F10 Guardar -->
+                    <Border BackgroundColor="{StaticResource AccentGreen}"
+                            StrokeShape="RoundRectangle 8" StrokeThickness="0"
+                            HeightRequest="52" HorizontalOptions="Fill"
+                            Padding="14,0">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GuardarCommand}"/>
+                        </Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+                            <Label Grid.Column="0" Text="F10" TextColor="White"
+                                   FontAttributes="Bold" FontSize="16"
+                                   VerticalOptions="Center"/>
+                            <Label Grid.Column="1" Text="Guardar" TextColor="White"
+                                   FontAttributes="Bold" FontSize="16"
+                                   HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                            <Border Grid.Column="2" BackgroundColor="#1DA44E"
+                                    StrokeShape="RoundRectangle 6" StrokeThickness="0"
+                                    Padding="10,5" VerticalOptions="Center">
+                                <Label Text="F10" TextColor="White"
+                                       FontAttributes="Bold" FontSize="12"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <Grid ColumnDefinitions="*, *" ColumnSpacing="8" Margin="0,8,0,0">
+                        <Button Grid.Column="0" Text="Guardar y facturar"
+                                Style="{StaticResource SecondaryButton}"
+                                Command="{Binding GuardarYVolverCommand}"/>
+                        <Button Grid.Column="1" Text="Cancelar"
+                                Style="{StaticResource SecondaryButton}"
+                                Command="{Binding CancelarCommand}"/>
+                    </Grid>
+
+                    <Label Text="{Binding MensajeValidacion}"
+                           IsVisible="{Binding TieneMensajeValidacion}"
+                           TextColor="{StaticResource ErrorRed}"
+                           FontSize="12" HorizontalTextAlignment="Center" Margin="0,6,0,0"/>
+
+                </VerticalStackLayout>
+            </controls:SectionCard>
+
+         
+            <controls:SectionCard Grid.Column="2" Title="">
+                <VerticalStackLayout Spacing="0">
+
+                    <!-- Badge RECEPTOR ELECTRÓNICO -->
+                    <Border BackgroundColor="{StaticResource AccentGreen}"
+                            StrokeShape="RoundRectangle 6" StrokeThickness="0"
+                            Padding="14,7" HorizontalOptions="Start" Margin="0,0,0,14">
+                        <Label Text="RECEPTOR ELECTRÓNICO" TextColor="White"
+                               FontSize="12" FontAttributes="Bold"/>
+                    </Border>
+
+                    <Label IsVisible="{Binding NoEsReceptor}"
+                           Text="Active «Es Receptor» para ver los datos fiscales"
+                           TextColor="{StaticResource Gray300}" FontSize="13"
+                           HorizontalTextAlignment="Center" Margin="0,24,0,0"/>
+
+                    <!-- Datos fiscales (solo si EsReceptor) -->
+                    <VerticalStackLayout IsVisible="{Binding MostrarDatosFiscales}" Spacing="0">
+
+                        <!-- Teléfono -->
+                        <Grid ColumnDefinitions="Auto, *" Margin="0,0,0,2">
+                            <Label Grid.Column="0" Text="&#x1F4DE;" FontSize="12"
+                                   VerticalOptions="Center" Margin="0,0,5,0"/>
+                            <Label Grid.Column="1" Text="Teléfono"
+                                   Style="{StaticResource IconFieldLabel}"/>
+                        </Grid>
+                        <Border Style="{StaticResource InputBox}">
+                            <Grid ColumnDefinitions="Auto, *">
+                                <Label Grid.Column="0" Text="&#x1F4F1;" FontSize="13"
+                                       VerticalOptions="Center" Margin="0,0,6,0"/>
+                                <Entry Grid.Column="1" Placeholder="9 1234 5678"
+                                       Text="{Binding Telefono}" Keyboard="Telephone"
+                                       BackgroundColor="Transparent" FontSize="14"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Email -->
+                        <Grid ColumnDefinitions="Auto, *" Margin="0,8,0,2">
+                            <Label Grid.Column="0" Text="&#x2709;" FontSize="12"
+                                   VerticalOptions="Center" Margin="0,0,5,0"/>
+                            <Label Grid.Column="1" Text="Email"
+                                   Style="{StaticResource IconFieldLabel}"/>
+                        </Grid>
+                        <controls:FormEntry Placeholder="juan@example.com"
+                                            Text="{Binding Email}"
+                                            Keyboard="Email"/>
+
+                        <!-- Pickers compactos 3 columnas -->
+                        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="4" Margin="0,8,0,0">
+                            <Border Grid.Column="0" Style="{StaticResource CompactInputBox}">
+                                <Picker ItemsSource="{Binding Provincias}"
+                                        SelectedItem="{Binding ProvinciaSeleccionada, Mode=TwoWay}"
+                                        FontSize="12"
+                                        TextColor="{StaticResource Gray900}"
+                                        BackgroundColor="Transparent"
+                                        HorizontalOptions="Fill"/>
+                            </Border>
+                            <Border Grid.Column="1" Style="{StaticResource CompactInputBox}"
+                                    Opacity="{Binding CantonOpacity}">
+                                <Picker ItemsSource="{Binding Cantones}"
+                                        SelectedItem="{Binding CantonSeleccionado, Mode=TwoWay}"
+                                        FontSize="12"
+                                        TextColor="{StaticResource Gray900}"
+                                        BackgroundColor="Transparent"
+                                        HorizontalOptions="Fill"/>
+                            </Border>
+                            <Border Grid.Column="2" Style="{StaticResource CompactInputBox}"
+                                    Opacity="{Binding DistritoOpacity}">
+                                <Picker ItemsSource="{Binding Distritos}"
+                                        SelectedItem="{Binding DistritoSeleccionado, Mode=TwoWay}"
+                                        FontSize="12"
+                                        TextColor="{StaticResource Gray900}"
+                                        BackgroundColor="Transparent"
+                                        HorizontalOptions="Fill"/>
+                            </Border>
+                        </Grid>
+
+                        <!-- Dirección -->
+                        <Label Text="Dirección" Style="{StaticResource IconFieldLabel}"
+                               Margin="0,8,0,2"/>
+                        <Border BackgroundColor="{StaticResource InputBackground}"
+                                StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                                Stroke="{StaticResource Gray200Brush}"
+                                Padding="10,4" HeightRequest="40">
+                            <Editor Text="{Binding Direccion}"
+                                    Placeholder="Avenida Central, Edificio Plaza Real..."
+                                    BackgroundColor="Transparent" FontSize="13"
+                                    MinimumHeightRequest="0" HeightRequest="30"
+                                    AutoSize="Disabled"/>
+                        </Border>
+
+                        <!-- Cod. Actividad -->
+                        <Border Style="{StaticResource InputBox}" Margin="0,6,0,0">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Entry Grid.Column="0" Placeholder="Cod. Actividad"
+                                       Text="{Binding CodActividad}" Keyboard="Numeric"
+                                       ReturnType="Search" BackgroundColor="Transparent"
+                                       FontSize="14" Completed="OnCodActividadCompleted"/>
+                                <Button Grid.Column="1" Text="&#x1F50D;"
+                                        Command="{Binding BuscarActividadCommand}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{StaticResource Gray500}"
+                                        FontSize="16" WidthRequest="36"
+                                        Padding="0" BorderWidth="0"/>
+                            </Grid>
+                        </Border>
+
+                        <Label Text="{Binding DescActividad}"
+                               IsVisible="{Binding TieneDescActividad}"
+                               FontSize="12" TextColor="{StaticResource Gray500}"
+                               FontAttributes="Italic" Margin="0,6,0,0"/>
+
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </controls:SectionCard>
+
+        </Grid>
+    </ScrollView>
+</ContentPage>

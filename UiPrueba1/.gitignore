@@ -1,0 +1,15 @@
+## .NET / MAUI
+bin/
+obj/
+*.user
+*.suo
+.vs/
+packages/
+TestResults/
+
+## Windows
+Thumbs.db
+Desktop.ini
+
+## Mac
+.DS_Store

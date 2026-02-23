@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Label encima de cada campo del formulario (gris, pequeño) -->
+    <Style x:Key="FieldLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="{StaticResource Gray500}"/>
+        <Setter Property="Margin" Value="0,10,0,4"/>
+    </Style>
+
+    <!-- Label de campo oscuro / prominente (Nombre Cliente, etc.) -->
+    <Style x:Key="FieldLabelDark" TargetType="Label">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="{StaticResource Gray900}"/>
+        <Setter Property="Margin" Value="0,0,0,6"/>
+    </Style>
+
+    <!-- Contenedor Border para inputs (Entry, Picker, etc.) -->
+    <Style x:Key="InputBox" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 8"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Stroke" Value="{StaticResource Gray200Brush}"/>
+        <Setter Property="Padding" Value="10,0"/>
+        <Setter Property="HeightRequest" Value="40"/>
+    </Style>
+
+    <!-- Contenedor compacto para pickers de 3 columnas -->
+    <Style x:Key="CompactInputBox" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 6"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Stroke" Value="{StaticResource Gray200Brush}"/>
+        <Setter Property="Padding" Value="4,0"/>
+    </Style>
+
+    <!-- Texto de ayuda / descripción secundaria debajo de un campo -->
+    <Style x:Key="HelpText" TargetType="Label">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="TextColor" Value="{StaticResource Gray400}"/>
+        <Setter Property="LineBreakMode" Value="WordWrap"/>
+    </Style>
+
+    <!-- Label de icono + nombre de campo (Teléfono, Email, Provincia) -->
+    <Style x:Key="IconFieldLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="{StaticResource Gray600}"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- Título de sección dentro de una card -->
+    <Style x:Key="SectionTitle" TargetType="Label">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="{StaticResource Gray600}"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
+    </Style>
+
+    <!-- Botón de acción primaria de página -->
+    <Style x:Key="PrimaryActionButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource AccentBlue}"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="HeightRequest" Value="46"/>
+        <Setter Property="HorizontalOptions" Value="Fill"/>
+    </Style>
+
+    <!-- Botón secundario (gris claro, texto oscuro) -->
+    <Style x:Key="SecondaryButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}"/>
+        <Setter Property="TextColor" Value="{StaticResource Gray600}"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="HeightRequest" Value="42"/>
+        <Setter Property="HorizontalOptions" Value="Fill"/>
+    </Style>
+
+</ResourceDictionary>
