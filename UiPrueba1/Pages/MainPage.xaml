@@ -1,745 +1,679 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:UiPrueba1.Controls"
              x:Class="UiPrueba1.MainPage"
-             BackgroundColor="{StaticResource PageBackground}"
+             x:Name="ThisPage"
+             BackgroundColor="{DynamicResource PageBackground}"
              Shell.NavBarIsVisible="False">
 
-    <Grid ColumnDefinitions="320, *, 240" ColumnSpacing="0">
+    <Grid x:Name="MainGrid" ColumnDefinitions="560, *, 220" ColumnSpacing="0">
+
 
         <Border Grid.Column="0"
                 BackgroundColor="White"
                 StrokeShape="RoundRectangle 12"
-                Stroke="{StaticResource Gray200Brush}"
+                Stroke="{DynamicResource Gray200Brush}"
                 StrokeThickness="1"
                 Margin="12,10,6,10"
                 Padding="0">
 
-            <Grid RowDefinitions="Auto, Auto, Auto, Auto, *, Auto" RowSpacing="0">
+            <Grid RowDefinitions="Auto, Auto, *, Auto" RowSpacing="0">
 
-                <!-- ── Fila 0: Info del cliente ── -->
+                <!-- Row 0: Client Info Header -->
                 <Grid Grid.Row="0"
-                      ColumnDefinitions="Auto, *" ColumnSpacing="12"
-                      Padding="14,14,14,10">
+                      ColumnDefinitions="Auto, *, Auto, Auto"
+                      ColumnSpacing="8"
+                      Padding="14,12,14,10">
                     <Border Grid.Column="0"
-                            BackgroundColor="{StaticResource Gray200}"
+                            BackgroundColor="{DynamicResource Gray200}"
                             StrokeShape="Ellipse" StrokeThickness="0"
-                            WidthRequest="54" HeightRequest="54">
-                        <Label Text="&#x1F464;" FontSize="26"
+                            WidthRequest="40" HeightRequest="40">
+                        <Label Text="&#x1F464;" FontSize="18"
                                HorizontalOptions="Center" VerticalOptions="Center"/>
                     </Border>
-                    <VerticalStackLayout Grid.Column="1" Spacing="5" VerticalOptions="Center">
-                        <Label Text="Cliente general"
-                               FontSize="16" FontAttributes="Bold"
-                               TextColor="{StaticResource Gray900}"/>
-                        <Border BackgroundColor="{StaticResource GreenSurface}"
-                                StrokeShape="RoundRectangle 20" StrokeThickness="0"
-                                Padding="8,3" HorizontalOptions="Start">
-                            <Label Text="+ Frecuente" FontSize="12"
-                                   TextColor="{StaticResource AccentGreen}"/>
-                        </Border>
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label Text="Cod. Cliente 3-101-718276"
+                               FontSize="13" FontAttributes="Bold"
+                               TextColor="{DynamicResource Gray900}"
+                               LineBreakMode="TailTruncation"/>
+                        <Label Text="AVS Solutions"
+                               FontSize="11" TextColor="{DynamicResource Gray500}"/>
                     </VerticalStackLayout>
+                    <Border Grid.Column="2"
+                            BackgroundColor="{DynamicResource AccentBlue}"
+                            StrokeShape="RoundRectangle 6" StrokeThickness="0"
+                            Padding="10,6" HeightRequest="32">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnClientSearchTapped"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="F2 Cliente" TextColor="White" FontAttributes="Bold"
+                               FontSize="12" VerticalOptions="Center"/>
+                    </Border>
+                    <Border Grid.Column="3"
+                            BackgroundColor="{DynamicResource InputBackground}"
+                            StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                            Stroke="{DynamicResource Gray200Brush}"
+                            Padding="10,6" HeightRequest="32">
+                        <Label Text="F3" TextColor="{DynamicResource Gray600}"
+                               FontAttributes="Bold" FontSize="12" VerticalOptions="Center"/>
+                    </Border>
                 </Grid>
 
-                <!-- ── Fila 1: Buscar cliente ── -->
-                <Border Grid.Row="1" Style="{StaticResource InputBox}"
-                        Margin="12,0,12,10">
-                    <Grid ColumnDefinitions="Auto, *">
-                        <Label Grid.Column="0" Text="&#x1F50D;&#xFE0E;" FontSize="13"
-                               TextColor="{StaticResource Gray400}"
-                               VerticalOptions="Center" Margin="0,0,4,0"/>
-                        <Entry Grid.Column="1"
-                               Placeholder="Buscar por nombre (F2)..."
-                               FontSize="13" BackgroundColor="Transparent"/>
-                    </Grid>
-                </Border>
-
-                <!-- ── Fila 2: Tabs Rápido / Categorías / Promos ── -->
-                <Border Grid.Row="2"
-                        BackgroundColor="{StaticResource InputBackground}"
-                        StrokeShape="RoundRectangle 8" StrokeThickness="1"
-                        Stroke="{StaticResource Gray200Brush}"
-                        Margin="12,0,12,10" Padding="3">
-                    <Grid ColumnDefinitions="*, *, *" ColumnSpacing="2">
-                        <Button Grid.Column="0" Text="Rápido"
-                                BackgroundColor="{StaticResource AccentBlue}"
-                                TextColor="White" FontSize="13"
-                                CornerRadius="6" HeightRequest="34"
-                                BorderWidth="0" Padding="0"/>
-                        <Button Grid.Column="1" Text="Categorías"
-                                BackgroundColor="Transparent"
-                                TextColor="{StaticResource Gray500}"
-                                FontSize="13" CornerRadius="6" HeightRequest="34"
-                                BorderWidth="0" Padding="0"/>
-                        <Button Grid.Column="2" Text="Promos"
-                                BackgroundColor="Transparent"
-                                TextColor="{StaticResource Gray500}"
-                                FontSize="13" CornerRadius="6" HeightRequest="34"
-                                BorderWidth="0" Padding="0"/>
-                    </Grid>
-                </Border>
-
-                <!-- ── Fila 3: Encabezado "Toda" ── -->
-                <Border Grid.Row="3"
-                        BackgroundColor="{StaticResource InputBackground}"
+                <!-- Row 1: Table Header -->
+                <Border Grid.Row="1"
+                        BackgroundColor="{DynamicResource InputBackground}"
                         StrokeShape="RoundRectangle 0" StrokeThickness="0"
-                        Padding="14,5">
-                    <Grid ColumnDefinitions="*, Auto">
-                        <Label Grid.Column="0" Text="Toda:"
-                               FontSize="12" TextColor="{StaticResource Gray500}"/>
-                        <Label Grid.Column="1" Text="1 ↑"
-                               FontSize="12" TextColor="{StaticResource Gray400}"/>
+                        Padding="12,8">
+                    <Grid ColumnDefinitions="*, 30, 80, 86, 96" ColumnSpacing="6">
+                        <Label Grid.Column="0" Text="Descripción Producto"
+                               FontSize="11" FontAttributes="Bold"
+                               TextColor="{DynamicResource Gray500}"/>
+                        <Label Grid.Column="1" Text="Cant."
+                               FontSize="11" FontAttributes="Bold"
+                               TextColor="{DynamicResource Gray500}"
+                               HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="2" Text="Precio"
+                               FontSize="11" FontAttributes="Bold"
+                               TextColor="{DynamicResource Gray500}"
+                               HorizontalTextAlignment="End"/>
+                        <Label Grid.Column="3" Text="Total"
+                               FontSize="11" FontAttributes="Bold"
+                               TextColor="{DynamicResource Gray500}"
+                               HorizontalTextAlignment="End"/>
+                        <!-- Col 4: no header — reserved for −/+ controls -->
                     </Grid>
                 </Border>
 
-                <!-- ── Fila 4: Ítems del carro (scroll) ── -->
-                <ScrollView Grid.Row="4">
-                    <VerticalStackLayout Spacing="0">
+                <!-- Row 2: Cart Items (scroll) -->
+                <CollectionView Grid.Row="2" ItemsSource="{Binding CartItems}" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout Spacing="0">
+                                <Grid ColumnDefinitions="*, 30, 80, 86, 96"
+                                      ColumnSpacing="6" Padding="12,9,12,9">
 
-                        <!-- Ítem 1 -->
-                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="8"
-                              Padding="14,10,14,10">
-                            <Label Grid.Column="0" Text="2 ×" FontSize="12"
-                                   TextColor="{StaticResource Gray400}"
-                                   VerticalOptions="Start" Margin="0,2,0,0"/>
-                            <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="Aceite Vegetal 900ml" FontSize="13"
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource Gray900}"
-                                       LineBreakMode="TailTruncation"/>
-                                <Label Text="020004" FontSize="11"
-                                       TextColor="{StaticResource Gray400}"/>
+                                    <!-- Col 0: prefix + emoji + name -->
+                                    <Label Grid.Column="0"
+                                           FontSize="13" FontAttributes="Bold"
+                                           TextColor="{DynamicResource Gray900}"
+                                           LineBreakMode="WordWrap"
+                                           VerticalOptions="Start">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding QuantityPrefix}"
+                                                      TextColor="{DynamicResource AccentBlue}"
+                                                      FontAttributes="Bold"/>
+                                                <Span Text="  "/>
+                                                <Span Text="{Binding Emoji}"/>
+                                                <Span Text=" "/>
+                                                <Span Text="{Binding Name}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <!-- Col 1: quantity -->
+                                    <Label Grid.Column="1"
+                                           Text="{Binding QuantityPrefix}"
+                                           FontSize="12"
+                                           TextColor="{DynamicResource Gray600}"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalOptions="Center"/>
+
+                                    <!-- Col 2: unit price (colones + usd) -->
+                                    <VerticalStackLayout Grid.Column="2"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="End"
+                                                         Spacing="1">
+                                        <Label Text="{Binding UnitPriceColonesText}"
+                                               FontSize="13" FontAttributes="Bold"
+                                               TextColor="{DynamicResource Gray900}"
+                                               HorizontalTextAlignment="End"/>
+                                        <Label Text="{Binding UnitPriceUsdText}"
+                                               FontSize="11"
+                                               TextColor="{DynamicResource Gray400}"
+                                               HorizontalTextAlignment="End"/>
+                                    </VerticalStackLayout>
+
+                                    <!-- Col 3: total (colones + usd) -->
+                                    <VerticalStackLayout Grid.Column="3"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="End"
+                                                         Spacing="1">
+                                        <Label Text="{Binding TotalColonesText}"
+                                               FontSize="13" FontAttributes="Bold"
+                                               TextColor="{DynamicResource Gray900}"
+                                               HorizontalTextAlignment="End"/>
+                                        <Label Text="{Binding TotalUsdText}"
+                                               FontSize="11"
+                                               TextColor="{DynamicResource Gray400}"
+                                               HorizontalTextAlignment="End"/>
+                                    </VerticalStackLayout>
+
+                                    <!-- Col 4: − / qty / + touch controls -->
+                                    <Grid Grid.Column="4"
+                                          ColumnDefinitions="28, *, 28" ColumnSpacing="2"
+                                          VerticalOptions="Center">
+                                        <Border Grid.Column="0"
+                                                BackgroundColor="{DynamicResource AccentOrange}"
+                                                StrokeShape="RoundRectangle 7" StrokeThickness="0"
+                                                HeightRequest="34" Padding="0">
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.DecrementCommand}"
+                                                    CommandParameter="{Binding .}"/>
+                                            </Border.GestureRecognizers>
+                                            <Label Text="−" FontSize="18" FontAttributes="Bold"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Quantity}"
+                                               FontSize="13" FontAttributes="Bold"
+                                               TextColor="{DynamicResource Gray900}"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalOptions="Center"/>
+                                        <Border Grid.Column="2"
+                                                BackgroundColor="{DynamicResource AccentGreen}"
+                                                StrokeShape="RoundRectangle 7" StrokeThickness="0"
+                                                HeightRequest="34" Padding="0">
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.IncrementCommand}"
+                                                    CommandParameter="{Binding .}"/>
+                                            </Border.GestureRecognizers>
+                                            <Label Text="+" FontSize="18" FontAttributes="Bold"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                    </Grid>
+
+                                </Grid>
+                                <BoxView Color="{DynamicResource Gray100}" HeightRequest="1" Margin="12,0"/>
                             </VerticalStackLayout>
-                            <Grid Grid.Column="2" ColumnDefinitions="32,32"
-                                  ColumnSpacing="4" VerticalOptions="Center">
-                                <Border Grid.Column="0"
-                                        BackgroundColor="{StaticResource InputBackground}"
-                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
-                                        Stroke="{StaticResource Gray200Brush}"
-                                        WidthRequest="32" HeightRequest="32" Padding="0">
-                                    <Label Text="−" FontSize="18"
-                                           TextColor="{StaticResource Gray600}"
-                                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                                </Border>
-                                <Border Grid.Column="1"
-                                        BackgroundColor="{StaticResource InputBackground}"
-                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
-                                        Stroke="{StaticResource Gray200Brush}"
-                                        WidthRequest="32" HeightRequest="32" Padding="0">
-                                    <Label Text="+" FontSize="18"
-                                           TextColor="{StaticResource Gray600}"
-                                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                                </Border>
-                            </Grid>
-                        </Grid>
-                        <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="14,0"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Label Text="Carrito vacío" FontSize="13"
+                               TextColor="{DynamicResource Gray400}"
+                               HorizontalOptions="Center" VerticalOptions="Center"
+                               Margin="0,40,0,0"/>
+                    </CollectionView.EmptyView>
+                </CollectionView>
 
-                        <!-- Ítem 2 -->
-                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="8"
-                              Padding="14,10,14,10">
-                            <Label Grid.Column="0" Text="1 ×" FontSize="12"
-                                   TextColor="{StaticResource Gray400}"
-                                   VerticalOptions="Start" Margin="0,2,0,0"/>
-                            <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                <Label Text='Caja Tornillos 3/4"' FontSize="13"
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource Gray900}"
-                                       LineBreakMode="TailTruncation"/>
-                                <Label Text="T0011" FontSize="11"
-                                       TextColor="{StaticResource Gray400}"/>
-                            </VerticalStackLayout>
-                            <Grid Grid.Column="2" ColumnDefinitions="32,32"
-                                  ColumnSpacing="4" VerticalOptions="Center">
-                                <Border Grid.Column="0"
-                                        BackgroundColor="{StaticResource InputBackground}"
-                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
-                                        Stroke="{StaticResource Gray200Brush}"
-                                        WidthRequest="32" HeightRequest="32" Padding="0">
-                                    <Label Text="−" FontSize="18"
-                                           TextColor="{StaticResource Gray600}"
-                                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                                </Border>
-                                <Border Grid.Column="1"
-                                        BackgroundColor="{StaticResource InputBackground}"
-                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
-                                        Stroke="{StaticResource Gray200Brush}"
-                                        WidthRequest="32" HeightRequest="32" Padding="0">
-                                    <Label Text="+" FontSize="18"
-                                           TextColor="{StaticResource Gray600}"
-                                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                                </Border>
-                            </Grid>
-                        </Grid>
-                        <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="14,0"/>
+                <!-- Row 3: Totals + Actions -->
+                <VerticalStackLayout Grid.Row="3" Spacing="0">
 
-                        <!-- Ítem 3 -->
-                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="8"
-                              Padding="14,10,14,10">
-                            <Label Grid.Column="0" Text="1 ×" FontSize="12"
-                                   TextColor="{StaticResource Gray400}"
-                                   VerticalOptions="Start" Margin="0,2,0,0"/>
-                            <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="Sandalias Hombre" FontSize="13"
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource Gray900}"
-                                       LineBreakMode="TailTruncation"/>
-                                <Label Text="703022" FontSize="11"
-                                       TextColor="{StaticResource Gray400}"/>
-                            </VerticalStackLayout>
-                            <Grid Grid.Column="2" ColumnDefinitions="32,32"
-                                  ColumnSpacing="4" VerticalOptions="Center">
-                                <Border Grid.Column="0"
-                                        BackgroundColor="{StaticResource InputBackground}"
-                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
-                                        Stroke="{StaticResource Gray200Brush}"
-                                        WidthRequest="32" HeightRequest="32" Padding="0">
-                                    <Label Text="−" FontSize="18"
-                                           TextColor="{StaticResource Gray600}"
-                                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                                </Border>
-                                <Border Grid.Column="1"
-                                        BackgroundColor="{StaticResource InputBackground}"
-                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
-                                        Stroke="{StaticResource Gray200Brush}"
-                                        WidthRequest="32" HeightRequest="32" Padding="0">
-                                    <Label Text="+" FontSize="18"
-                                           TextColor="{StaticResource Gray600}"
-                                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                                </Border>
-                            </Grid>
-                        </Grid>
-                        <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="14,0"/>
+                    <BoxView Color="{DynamicResource Gray200}" HeightRequest="1"/>
 
-                        <!-- Ítem 4 -->
-                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="8"
-                              Padding="14,10,14,10">
-                            <Label Grid.Column="0" Text="1 ×" FontSize="12"
-                                   TextColor="{StaticResource Gray400}"
-                                   VerticalOptions="Start" Margin="0,2,0,0"/>
-                            <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="Snakc 200g" FontSize="13"
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource Gray900}"
-                                       LineBreakMode="TailTruncation"/>
-                                <Label Text="080016" FontSize="11"
-                                       TextColor="{StaticResource Gray400}"/>
-                            </VerticalStackLayout>
-                            <Grid Grid.Column="2" ColumnDefinitions="32,32"
-                                  ColumnSpacing="4" VerticalOptions="Center">
-                                <Border Grid.Column="0"
-                                        BackgroundColor="{StaticResource InputBackground}"
-                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
-                                        Stroke="{StaticResource Gray200Brush}"
-                                        WidthRequest="32" HeightRequest="32" Padding="0">
-                                    <Label Text="−" FontSize="18"
-                                           TextColor="{StaticResource Gray600}"
-                                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                                </Border>
-                                <Border Grid.Column="1"
-                                        BackgroundColor="{StaticResource InputBackground}"
-                                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
-                                        Stroke="{StaticResource Gray200Brush}"
-                                        WidthRequest="32" HeightRequest="32" Padding="0">
-                                    <Label Text="+" FontSize="18"
-                                           TextColor="{StaticResource Gray600}"
-                                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                                </Border>
-                            </Grid>
-                        </Grid>
-                        <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="14,0"/>
-
-                    </VerticalStackLayout>
-                </ScrollView>
-
-                <!-- ── Fila 5: Descuento · Impuestos · TOTAL · Botones ── -->
-                <VerticalStackLayout Grid.Row="5" Spacing="0">
-
-                    <BoxView Color="{StaticResource Gray200}" HeightRequest="1"/>
-
-                    <!-- Descuento -->
-                    <Grid ColumnDefinitions="*, Auto" Padding="14,8,14,3">
-                        <Label Grid.Column="0" Text="Descuento (F5)"
-                               FontSize="13" TextColor="{StaticResource Gray500}"/>
-                        <Label Grid.Column="1" Text="0 %"
-                               FontSize="13" TextColor="{StaticResource Gray500}"/>
+                    <!-- Totals: Subtotal + TOTAL in colones -->
+                    <Grid ColumnDefinitions="Auto, Auto, *, Auto, Auto"
+                          Padding="14,12,14,4" ColumnSpacing="8">
+                        <Label Grid.Column="0" Text="Totales:"
+                               FontSize="15" FontAttributes="Bold"
+                               TextColor="{DynamicResource Gray600}"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="1" Text="Subtotal:"
+                               FontSize="13"
+                               TextColor="{DynamicResource Gray500}"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="2" Text="{Binding SubtotalColonesText}"
+                               FontSize="17" FontAttributes="Bold"
+                               TextColor="{DynamicResource Gray900}"/>
+                        <Label Grid.Column="3" Text="TOTAL:"
+                               FontSize="15" FontAttributes="Bold"
+                               TextColor="{DynamicResource Gray600}"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="4" Text="{Binding TotalColonesText}"
+                               FontSize="17" FontAttributes="Bold"
+                               TextColor="{DynamicResource Gray900}"
+                               HorizontalTextAlignment="End"/>
                     </Grid>
 
-                    <!-- Impuestos -->
-                    <Grid ColumnDefinitions="*, Auto" Padding="14,3,14,8">
-                        <Label Grid.Column="0" Text="Impuestos"
-                               FontSize="13" TextColor="{StaticResource Gray500}"/>
-                        <Label Grid.Column="1" Text="$1.50"
-                               FontSize="13" TextColor="{StaticResource Gray500}"/>
+                    <!-- USD totals: Impuestos + Total USD -->
+                    <Grid ColumnDefinitions="Auto, Auto, *, Auto"
+                          Padding="14,0,14,10" ColumnSpacing="8">
+                        <Label Grid.Column="0" Text="Impuestos:"
+                               FontSize="13" TextColor="{DynamicResource Gray400}"/>
+                        <Label Grid.Column="1" Text="{Binding TaxText}"
+                               FontSize="13" TextColor="{DynamicResource Gray400}"/>
+                        <BoxView Grid.Column="2" Color="Transparent" HeightRequest="0"/>
+                        <Label Grid.Column="3" Text="{Binding TotalText}"
+                               FontSize="13" TextColor="{DynamicResource Gray400}"
+                               HorizontalTextAlignment="End"/>
                     </Grid>
 
-                    <!-- Barra TOTAL naranja -->
-                    <Border BackgroundColor="{StaticResource AccentOrange}"
-                            StrokeShape="RoundRectangle 0" StrokeThickness="0"
-                            Padding="14,12">
+                    <!-- Orange bar: Vaciar Ticket + Big TOTAL -->
+                    <Border BackgroundColor="{DynamicResource AccentOrange}"
+                            StrokeShape="RoundRectangle 0,0,12,12" StrokeThickness="0"
+                            Padding="14,10">
                         <Grid ColumnDefinitions="Auto, *">
-                            <Label Grid.Column="0" Text="TOTAL:"
-                                   FontSize="17" FontAttributes="Bold"
-                                   TextColor="White" VerticalOptions="Center"/>
-                            <Label Grid.Column="1" Text="$27.25"
-                                   FontSize="26" FontAttributes="Bold"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="End"
-                                   VerticalOptions="Center"/>
+                            <Border Grid.Column="0"
+                                    BackgroundColor="#C04800"
+                                    StrokeShape="RoundRectangle 6" StrokeThickness="0"
+                                    Padding="10,6" HeightRequest="38"
+                                    VerticalOptions="Center">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ClearCartCommand}"/>
+                                </Border.GestureRecognizers>
+                                <HorizontalStackLayout Spacing="5">
+                                    <Label Text="&#x1F5D1;" FontSize="13"
+                                           TextColor="White" VerticalOptions="Center"/>
+                                    <Label Text="Vaciar Ticket" TextColor="White"
+                                           FontSize="12" FontAttributes="Bold"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
+                                <!-- TC · Sub · IVA pills -->
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="4">
+                                    <Border BackgroundColor="#26000000"
+                                            StrokeShape="RoundRectangle 6" StrokeThickness="0"
+                                            Padding="8,4">
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label Text="TC" FontSize="10" TextColor="White"
+                                                   Opacity="0.8" VerticalOptions="Center"/>
+                                            <Label Text="{Binding ExchangeRateText}"
+                                                   FontSize="12" FontAttributes="Bold"
+                                                   TextColor="White" VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                    <Border BackgroundColor="#26000000"
+                                            StrokeShape="RoundRectangle 6" StrokeThickness="0"
+                                            Padding="8,4">
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label Text="Sub" FontSize="10" TextColor="White"
+                                                   Opacity="0.8" VerticalOptions="Center"/>
+                                            <Label Text="{Binding SubtotalColonesText}"
+                                                   FontSize="12" FontAttributes="Bold"
+                                                   TextColor="White" VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                    <Border BackgroundColor="#26000000"
+                                            StrokeShape="RoundRectangle 6" StrokeThickness="0"
+                                            Padding="8,4">
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label Text="IVA" FontSize="10" TextColor="White"
+                                                   Opacity="0.8" VerticalOptions="Center"/>
+                                            <Label Text="{Binding TaxColonesText}"
+                                                   FontSize="12" FontAttributes="Bold"
+                                                   TextColor="White" VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </HorizontalStackLayout>
+                                <!-- Big total -->
+                                <Label Text="TOTAL:" FontSize="12" TextColor="White"
+                                       HorizontalTextAlignment="End" Opacity="0.85"/>
+                                <Label Text="{Binding TotalColonesText}"
+                                       FontSize="28" FontAttributes="Bold"
+                                       TextColor="White"
+                                       HorizontalTextAlignment="End"/>
+                            </VerticalStackLayout>
                         </Grid>
                     </Border>
-
-                    <!-- Botones F6 Facturar / F8 Pausar -->
-                    <Grid ColumnDefinitions="*, *" ColumnSpacing="8"
-                          Padding="12,10,12,6">
-                        <Border Grid.Column="0"
-                                BackgroundColor="{StaticResource AccentBlue}"
-                                StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                HeightRequest="50" Padding="10,0">
-                            <Grid ColumnDefinitions="Auto, *">
-                                <Label Grid.Column="0" Text="F6"
-                                       TextColor="#BFDBFE" FontAttributes="Bold"
-                                       FontSize="14" VerticalOptions="Center"/>
-                                <Label Grid.Column="1" Text="Facturar"
-                                       TextColor="White" FontAttributes="Bold"
-                                       FontSize="15"
-                                       HorizontalTextAlignment="Center"
-                                       VerticalOptions="Center"/>
-                            </Grid>
-                        </Border>
-                        <Border Grid.Column="1"
-                                BackgroundColor="{StaticResource Gray400}"
-                                StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                HeightRequest="50" Padding="10,0">
-                            <Grid ColumnDefinitions="Auto, *">
-                                <Label Grid.Column="0" Text="F8"
-                                       TextColor="#E5E7EB" FontAttributes="Bold"
-                                       FontSize="14" VerticalOptions="Center"/>
-                                <Label Grid.Column="1" Text="Pausar"
-                                       TextColor="White" FontAttributes="Bold"
-                                       FontSize="15"
-                                       HorizontalTextAlignment="Center"
-                                       VerticalOptions="Center"/>
-                            </Grid>
-                        </Border>
-                    </Grid>
-
-                    <!-- Links F9 Limpiar / F9 FD -->
-                    <Grid ColumnDefinitions="*, *" Padding="12,0,12,14">
-                        <Label Grid.Column="0" Text="F9  Limpiar"
-                               FontSize="12" TextColor="{StaticResource Gray400}"
-                               HorizontalTextAlignment="Center"/>
-                        <Label Grid.Column="1" Text="F9  FD"
-                               FontSize="12" TextColor="{StaticResource Gray400}"
-                               HorizontalTextAlignment="Center"/>
-                    </Grid>
 
                 </VerticalStackLayout>
 
             </Grid>
         </Border>
 
-        <!-- ══════════════════════════════════════════════════════ -->
-        <!-- Panel derecho: productos                              -->
-        <!-- ══════════════════════════════════════════════════════ -->
-        <Grid Grid.Column="1" RowDefinitions="Auto, Auto, Auto, *, Auto"
-              RowSpacing="0" Margin="6,10,12,10">
+        <!-- Collapsed state: slim expand bar -->
+        <Border Grid.Column="1"
+                BackgroundColor="#1E293B"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="0"
+                Margin="6,10,6,10"
+                IsVisible="False">
+            <Border.Triggers>
+                <DataTrigger TargetType="Border" Binding="{Binding IsProductsPanelVisible}" Value="False">
+                    <Setter Property="IsVisible" Value="True"/>
+                </DataTrigger>
+            </Border.Triggers>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ToggleProductsPanelCommand}"/>
+            </Border.GestureRecognizers>
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="8">
+                <Label Text="&#x1F4E6;" FontSize="18" TextColor="White"
+                       HorizontalTextAlignment="Center"/>
+                <Label Text="&#x25B6;" FontSize="16" TextColor="White"
+                       HorizontalTextAlignment="Center" Opacity="0.7"/>
+            </VerticalStackLayout>
+        </Border>
 
-            <!-- ── Fila 0: Barra de búsqueda + F2 F4 F8 ── -->
-            <Grid Grid.Row="0" ColumnDefinitions="*, Auto, Auto, Auto"
-                  ColumnSpacing="6" Margin="0,0,0,10">
-                <Border Grid.Column="0" Style="{StaticResource InputBox}">
-                    <Grid ColumnDefinitions="Auto, *">
-                        <Label Grid.Column="0" Text="&#x1F50D;&#xFE0E;" FontSize="13"
-                               TextColor="{StaticResource Gray400}"
-                               VerticalOptions="Center" Margin="0,0,4,0"/>
-                        <Entry Grid.Column="1"
-                               Placeholder="Buscar por código de barras o nombre..."
-                               FontSize="13" BackgroundColor="Transparent"/>
+        <!-- Expanded state: full products panel -->
+        <Border Grid.Column="1"
+                BackgroundColor="White"
+                StrokeShape="RoundRectangle 12"
+                Stroke="{DynamicResource Gray200Brush}"
+                StrokeThickness="1"
+                Margin="6,10,6,10"
+                IsVisible="{Binding IsProductsPanelVisible}">
+
+            <Grid RowDefinitions="Auto, *" RowSpacing="0">
+
+                <!-- Panel header -->
+                <Border Grid.Row="0"
+                        BackgroundColor="#1E293B"
+                        StrokeShape="RoundRectangle 11,11,0,0"
+                        StrokeThickness="0"
+                        Padding="12,8">
+                    <Grid ColumnDefinitions="Auto, Auto, *, Auto"
+                          ColumnSpacing="6">
+                        <Label Grid.Column="0" Text="&#x1F4E6;"
+                               FontSize="14" TextColor="White"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="1" Text="Productos"
+                               TextColor="White" FontSize="13"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                        <!-- Column picker: 2 | 3 | 4 -->
+                        <HorizontalStackLayout Grid.Column="2"
+                                               HorizontalOptions="End" Spacing="3"
+                                               VerticalOptions="Center">
+                            <Border Padding="8,4" HeightRequest="24" StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 5" BackgroundColor="Transparent">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsSpan2}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="#475569"/>
+                                    </DataTrigger>
+                                </Border.Triggers>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectSpanCommand}" CommandParameter="2"/>
+                                </Border.GestureRecognizers>
+                                <Label Text="2" FontSize="11" FontAttributes="Bold"
+                                       TextColor="White" VerticalOptions="Center"/>
+                            </Border>
+                            <Border Padding="8,4" HeightRequest="24" StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 5" BackgroundColor="Transparent">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsSpan3}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="#475569"/>
+                                    </DataTrigger>
+                                </Border.Triggers>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectSpanCommand}" CommandParameter="3"/>
+                                </Border.GestureRecognizers>
+                                <Label Text="3" FontSize="11" FontAttributes="Bold"
+                                       TextColor="White" VerticalOptions="Center"/>
+                            </Border>
+                            <Border Padding="8,4" HeightRequest="24" StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 5" BackgroundColor="Transparent"
+                                    IsVisible="{Binding IsSpan4Available}">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsSpan4}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="#475569"/>
+                                    </DataTrigger>
+                                </Border.Triggers>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectSpanCommand}" CommandParameter="4"/>
+                                </Border.GestureRecognizers>
+                                <Label Text="4" FontSize="11" FontAttributes="Bold"
+                                       TextColor="White" VerticalOptions="Center"/>
+                            </Border>
+                        </HorizontalStackLayout>
+
+                        <!-- Collapse button -->
+                        <Border Grid.Column="3"
+                                BackgroundColor="#475569"
+                                StrokeShape="RoundRectangle 5"
+                                StrokeThickness="0"
+                                WidthRequest="28" HeightRequest="28"
+                                Padding="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToggleProductsPanelCommand}"/>
+                            </Border.GestureRecognizers>
+                            <Label Text="&#x25C0;" FontSize="11" TextColor="White"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
                     </Grid>
                 </Border>
-                <Border Grid.Column="1"
-                        BackgroundColor="{StaticResource AccentBlue}"
-                        StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                        WidthRequest="40" HeightRequest="40" Padding="0">
-                    <Label Text="F2" TextColor="White" FontAttributes="Bold"
-                           FontSize="13" HorizontalOptions="Center" VerticalOptions="Center"/>
-                </Border>
-                <Border Grid.Column="2"
-                        BackgroundColor="{StaticResource InputBackground}"
-                        StrokeShape="RoundRectangle 8" StrokeThickness="1"
-                        Stroke="{StaticResource Gray200Brush}"
-                        WidthRequest="40" HeightRequest="40" Padding="0">
-                    <Label Text="F4" TextColor="{StaticResource Gray600}" FontAttributes="Bold"
-                           FontSize="13" HorizontalOptions="Center" VerticalOptions="Center"/>
-                </Border>
-                <Border Grid.Column="3"
-                        BackgroundColor="{StaticResource InputBackground}"
-                        StrokeShape="RoundRectangle 8" StrokeThickness="1"
-                        Stroke="{StaticResource Gray200Brush}"
-                        WidthRequest="40" HeightRequest="40" Padding="0">
-                    <Label Text="F8" TextColor="{StaticResource Gray600}" FontAttributes="Bold"
-                           FontSize="13" HorizontalOptions="Center" VerticalOptions="Center"/>
-                </Border>
-            </Grid>
 
-            <!-- ── Fila 1: Categorías (tabs) ── -->
-            <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never"
+                <!-- Panel content -->
+                <Grid x:Name="ProductsPanel" Grid.Row="1" RowDefinitions="Auto, Auto, *, Auto"
+                      RowSpacing="0" Padding="10,8,10,10"
+                      SizeChanged="OnProductsPanelSizeChanged">
+
+                    <!-- Row 0: Search bar -->
+                    <Border Grid.Row="0" Style="{DynamicResource InputBox}" Margin="0,2,0,8">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Label Grid.Column="0" Text="&#x1F50D;&#xFE0E;" FontSize="15"
+                           TextColor="{DynamicResource Gray400}"
+                           VerticalOptions="Center" Margin="0,0,6,0"/>
+                    <Entry Grid.Column="1"
+                           Placeholder="Buscar o escanear producto..."
+                           Text="{Binding ProductSearchText, Mode=TwoWay}"
+                           FontSize="13" BackgroundColor="Transparent"/>
+                </Grid>
+            </Border>
+
+            <!-- Row 1: Category tabs -->
+            <ScrollView Grid.Row="1" Orientation="Horizontal"
+                        HorizontalScrollBarVisibility="Never"
                         Margin="0,0,0,8">
-                <HorizontalStackLayout Spacing="8">
-                    <Border BackgroundColor="{StaticResource AccentBlue}"
-                            StrokeShape="RoundRectangle 20" StrokeThickness="0"
-                            Padding="14,8">
-                        <Label Text="🏷️ Rápido" TextColor="White" FontSize="13"/>
+                <HorizontalStackLayout Spacing="6">
+                    <!-- Todos -->
+                    <Border StrokeShape="RoundRectangle 20" Padding="14,8"
+                            StrokeThickness="0" BackgroundColor="White">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectCategoryCommand}"
+                                                  CommandParameter="Todos"/>
+                        </Border.GestureRecognizers>
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsCatTodos}" Value="True">
+                                <Setter Property="BackgroundColor" Value="{DynamicResource AccentBlue}"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsCatTodos}" Value="False">
+                                <Setter Property="BackgroundColor" Value="White"/>
+                                <Setter Property="StrokeThickness" Value="1"/>
+                                <Setter Property="Stroke" Value="{DynamicResource Gray200Brush}"/>
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <Label Text="&#x1F3F7;&#xFE0F; Todos" FontSize="12"
+                               TextColor="{DynamicResource Gray600}">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsCatTodos}" Value="True">
+                                    <Setter Property="TextColor" Value="White"/>
+                                    <Setter Property="FontAttributes" Value="Bold"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
                     </Border>
-                    <Border BackgroundColor="White"
-                            StrokeShape="RoundRectangle 20" StrokeThickness="1"
-                            Stroke="{StaticResource Gray200Brush}" Padding="14,8">
-                        <Label Text="🛒 Super" TextColor="{StaticResource Gray600}" FontSize="13"/>
+                    <!-- Super -->
+                    <Border StrokeShape="RoundRectangle 20" Padding="14,8"
+                            StrokeThickness="0" BackgroundColor="White">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectCategoryCommand}"
+                                                  CommandParameter="Super"/>
+                        </Border.GestureRecognizers>
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsCatSuper}" Value="True">
+                                <Setter Property="BackgroundColor" Value="{DynamicResource AccentBlue}"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsCatSuper}" Value="False">
+                                <Setter Property="BackgroundColor" Value="White"/>
+                                <Setter Property="StrokeThickness" Value="1"/>
+                                <Setter Property="Stroke" Value="{DynamicResource Gray200Brush}"/>
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <Label Text="&#x1F6D2; Super" FontSize="12"
+                               TextColor="{DynamicResource Gray600}">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsCatSuper}" Value="True">
+                                    <Setter Property="TextColor" Value="White"/>
+                                    <Setter Property="FontAttributes" Value="Bold"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
                     </Border>
-                    <Border BackgroundColor="White"
-                            StrokeShape="RoundRectangle 20" StrokeThickness="1"
-                            Stroke="{StaticResource Gray200Brush}" Padding="14,8">
-                        <Label Text="🔧 Ferreteria" TextColor="{StaticResource Gray600}" FontSize="13"/>
+                    <!-- Ferreteria -->
+                    <Border StrokeShape="RoundRectangle 20" Padding="14,8"
+                            StrokeThickness="0" BackgroundColor="White">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectCategoryCommand}"
+                                                  CommandParameter="Ferreteria"/>
+                        </Border.GestureRecognizers>
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsCatFerreteria}" Value="True">
+                                <Setter Property="BackgroundColor" Value="{DynamicResource AccentBlue}"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsCatFerreteria}" Value="False">
+                                <Setter Property="BackgroundColor" Value="White"/>
+                                <Setter Property="StrokeThickness" Value="1"/>
+                                <Setter Property="Stroke" Value="{DynamicResource Gray200Brush}"/>
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <Label Text="&#x1F527; Ferretería" FontSize="12"
+                               TextColor="{DynamicResource Gray600}">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsCatFerreteria}" Value="True">
+                                    <Setter Property="TextColor" Value="White"/>
+                                    <Setter Property="FontAttributes" Value="Bold"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
                     </Border>
-                    <Border BackgroundColor="White"
-                            StrokeShape="RoundRectangle 20" StrokeThickness="1"
-                            Stroke="{StaticResource Gray200Brush}" Padding="14,8">
-                        <Label Text="👟 Calzado" TextColor="{StaticResource Gray600}" FontSize="13"/>
+                    <!-- Calzado -->
+                    <Border StrokeShape="RoundRectangle 20" Padding="14,8"
+                            StrokeThickness="0" BackgroundColor="White">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectCategoryCommand}"
+                                                  CommandParameter="Calzado"/>
+                        </Border.GestureRecognizers>
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsCatCalzado}" Value="True">
+                                <Setter Property="BackgroundColor" Value="{DynamicResource AccentBlue}"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsCatCalzado}" Value="False">
+                                <Setter Property="BackgroundColor" Value="White"/>
+                                <Setter Property="StrokeThickness" Value="1"/>
+                                <Setter Property="Stroke" Value="{DynamicResource Gray200Brush}"/>
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <Label Text="&#x1F45F; Calzado" FontSize="12"
+                               TextColor="{DynamicResource Gray600}">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsCatCalzado}" Value="True">
+                                    <Setter Property="TextColor" Value="White"/>
+                                    <Setter Property="FontAttributes" Value="Bold"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
                     </Border>
-                    <Border BackgroundColor="White"
-                            StrokeShape="RoundRectangle 20" StrokeThickness="1"
-                            Stroke="{StaticResource Gray200Brush}" Padding="14,8">
-                        <Label Text="🏠 Hogar" TextColor="{StaticResource Gray600}" FontSize="13"/>
+                    <!-- Hogar -->
+                    <Border StrokeShape="RoundRectangle 20" Padding="14,8"
+                            StrokeThickness="0" BackgroundColor="White">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectCategoryCommand}"
+                                                  CommandParameter="Hogar"/>
+                        </Border.GestureRecognizers>
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsCatHogar}" Value="True">
+                                <Setter Property="BackgroundColor" Value="{DynamicResource AccentBlue}"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsCatHogar}" Value="False">
+                                <Setter Property="BackgroundColor" Value="White"/>
+                                <Setter Property="StrokeThickness" Value="1"/>
+                                <Setter Property="Stroke" Value="{DynamicResource Gray200Brush}"/>
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <Label Text="&#x1F3E0; Hogar" FontSize="12"
+                               TextColor="{DynamicResource Gray600}">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsCatHogar}" Value="True">
+                                    <Setter Property="TextColor" Value="White"/>
+                                    <Setter Property="FontAttributes" Value="Bold"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
                     </Border>
                 </HorizontalStackLayout>
             </ScrollView>
 
-            <!-- ── Fila 2: Breadcrumb + filtros ── -->
-            <Grid Grid.Row="2" ColumnDefinitions="*, Auto, Auto"
-                  Margin="0,0,0,8">
-                <Label Grid.Column="0"
-                       Text="📋 Ofertas  /  Super  /  Ferreteria  /  Calzado"
-                       FontSize="12" TextColor="{StaticResource Gray400}"
-                       VerticalOptions="Center"/>
-                <Border Grid.Column="1"
-                        BackgroundColor="{StaticResource InputBackground}"
-                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
-                        Stroke="{StaticResource Gray200Brush}"
-                        WidthRequest="32" HeightRequest="32" Padding="0">
-                    <Label Text="▼" FontSize="12" TextColor="{StaticResource Gray500}"
-                           HorizontalOptions="Center" VerticalOptions="Center"/>
+            <!-- Row 2: Product Grid (2-4 columns, responsive) -->
+            <CollectionView Grid.Row="2" ItemsSource="{Binding Products}" SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout x:Name="ProductsItemsLayout" Orientation="Vertical" Span="2"
+                                     HorizontalItemSpacing="10" VerticalItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <controls:ProductCard Emoji="{Binding Emoji}"
+                                              ProductName="{Binding Name}"
+                                              Code="{Binding Code}"
+                                              Price="{Binding Price}"
+                                              PriceColones="{Binding PriceColonesText}"
+                                              OldPrice="{Binding OldPrice}"
+                                              Stock="{Binding Stock}"
+                                              Quantity="{Binding CartQuantity}"
+                                              Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.AddProductCommand}"
+                                              CommandParameter="{Binding .}"
+                                              DecrementCommand="{Binding Source={x:Reference ThisPage}, Path=BindingContext.DecrementProductCommand}"
+                                              DecrementCommandParameter="{Binding .}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Row 3: Exchange Rate + Cobrar -->
+            <VerticalStackLayout Grid.Row="3" Spacing="8" Margin="0,8,0,0">
+
+                <!-- Tipo de Cambio -->
+                <Border BackgroundColor="White"
+                        StrokeShape="RoundRectangle 8" StrokeThickness="1"
+                        Stroke="{DynamicResource Gray200Brush}"
+                        Padding="12,8">
+                    <Grid ColumnDefinitions="Auto, Auto, Auto, *, Auto" ColumnSpacing="8">
+                        <Label Grid.Column="0" Text="&#x1F1FA;&#x1F1F8;" FontSize="16"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="1" Text="Tipo de Cambio" FontSize="12"
+                               FontAttributes="Bold" TextColor="{DynamicResource Gray600}"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="2" Text="USD &#x2192; CRC" FontSize="12"
+                               TextColor="{DynamicResource Gray400}"
+                               VerticalOptions="Center"/>
+                        <Border Grid.Column="3"
+                                BackgroundColor="{DynamicResource InputBackground}"
+                                StrokeShape="RoundRectangle 6" StrokeThickness="1"
+                                Stroke="{DynamicResource Gray200Brush}"
+                                Padding="10,4" HorizontalOptions="Start">
+                            <Label Text="{Binding ExchangeRateText}" FontSize="13"
+                                   FontAttributes="Bold"
+                                   TextColor="{DynamicResource Gray900}"/>
+                        </Border>
+                        <Label Grid.Column="4" Text="&#x1F504;" FontSize="14"
+                               TextColor="{DynamicResource Gray400}"
+                               VerticalOptions="Center"/>
+                    </Grid>
                 </Border>
-                <Border Grid.Column="2"
-                        BackgroundColor="{StaticResource InputBackground}"
-                        StrokeShape="RoundRectangle 6" StrokeThickness="1"
-                        Stroke="{StaticResource Gray200Brush}"
-                        WidthRequest="32" HeightRequest="32" Padding="0" Margin="6,0,0,0">
-                    <Label Text="⊞" FontSize="14" TextColor="{StaticResource Gray500}"
-                           HorizontalOptions="Center" VerticalOptions="Center"/>
+
+                <!-- Cobrar Button -->
+                <Border BackgroundColor="{DynamicResource AccentGreen}"
+                        StrokeShape="RoundRectangle 10" StrokeThickness="0"
+                        HeightRequest="50" Padding="10,0">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding InvoiceCommand}"/>
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout HorizontalOptions="Center"
+                                           VerticalOptions="Center" Spacing="8">
+                        <Label Text="&#x2611;" FontSize="18" TextColor="White"
+                               VerticalOptions="Center"/>
+                        <Label Text="Cobrar" FontSize="17" FontAttributes="Bold"
+                               TextColor="White" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
                 </Border>
-            </Grid>
 
-            <!-- ── Fila 3: Grid de productos (scroll) ── -->
-            <ScrollView Grid.Row="3">
-                <Grid ColumnDefinitions="*, *, *" RowDefinitions="Auto, Auto, Auto, Auto"
-                      ColumnSpacing="10" RowSpacing="10">
-
-                    <!-- Producto 1: Aceite Vegetal 900ml -->
-                    <Border Grid.Row="0" Grid.Column="0"
-                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
-                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
-                            Padding="10">
-                        <VerticalStackLayout Spacing="4">
-                            <Border BackgroundColor="{StaticResource InputBackground}"
-                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                    HeightRequest="70" Padding="0">
-                                <Label Text="🫒" FontSize="30"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="Aceite Vegetal 900ml" FontSize="12"
-                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
-                                   LineBreakMode="TailTruncation"/>
-                            <HorizontalStackLayout Spacing="4">
-                                <Label Text="x6" FontSize="11" TextColor="{StaticResource Gray400}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="$4.25" FontSize="14" FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray900}"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Producto 2: Caja Tornillos 3/4" -->
-                    <Border Grid.Row="0" Grid.Column="1"
-                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
-                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
-                            Padding="10">
-                        <VerticalStackLayout Spacing="4">
-                            <Border BackgroundColor="{StaticResource InputBackground}"
-                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                    HeightRequest="70" Padding="0">
-                                <Label Text="🔩" FontSize="30"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text='Caja Tornillos 3/4"' FontSize="12"
-                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
-                                   LineBreakMode="TailTruncation"/>
-                            <HorizontalStackLayout Spacing="4">
-                                <Label Text="x12" FontSize="11" TextColor="{StaticResource Gray400}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="$5.00" FontSize="14" FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray900}"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Producto 3: Snack 200g -->
-                    <Border Grid.Row="0" Grid.Column="2"
-                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
-                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
-                            Padding="10">
-                        <VerticalStackLayout Spacing="4">
-                            <Border BackgroundColor="{StaticResource InputBackground}"
-                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                    HeightRequest="70" Padding="0">
-                                <Label Text="🍿" FontSize="30"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="Snack 200g" FontSize="12"
-                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
-                                   LineBreakMode="TailTruncation"/>
-                            <HorizontalStackLayout Spacing="4">
-                                <Label Text="x15" FontSize="11" TextColor="{StaticResource Gray400}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="$1.95" FontSize="14" FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray900}"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Producto 4: Caja Clavos 2x1" -->
-                    <Border Grid.Row="1" Grid.Column="0"
-                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
-                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
-                            Padding="10">
-                        <VerticalStackLayout Spacing="4">
-                            <Border BackgroundColor="{StaticResource InputBackground}"
-                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                    HeightRequest="70" Padding="0">
-                                <Label Text="📦" FontSize="30"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text='Caja Clavos 2x1"' FontSize="12"
-                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
-                                   LineBreakMode="TailTruncation"/>
-                            <HorizontalStackLayout Spacing="4">
-                                <Label Text="x8" FontSize="11" TextColor="{StaticResource Gray400}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="$4.75" FontSize="14" FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray900}"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Producto 5: Leche Entera Litro -->
-                    <Border Grid.Row="1" Grid.Column="1"
-                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
-                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
-                            Padding="10">
-                        <VerticalStackLayout Spacing="4">
-                            <Border BackgroundColor="{StaticResource InputBackground}"
-                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                    HeightRequest="70" Padding="0">
-                                <Label Text="🥛" FontSize="30"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="Leche Entera Litro" FontSize="12"
-                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
-                                   LineBreakMode="TailTruncation"/>
-                            <HorizontalStackLayout Spacing="4">
-                                <Label Text="x20" FontSize="11" TextColor="{StaticResource Gray400}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="$1.80" FontSize="14" FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray900}"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Producto 6: Martillo 16oz Pro -->
-                    <Border Grid.Row="1" Grid.Column="2"
-                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
-                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
-                            Padding="10">
-                        <VerticalStackLayout Spacing="4">
-                            <Border BackgroundColor="{StaticResource InputBackground}"
-                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                    HeightRequest="70" Padding="0">
-                                <Label Text="🔨" FontSize="30"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="Martillo 16oz Pro" FontSize="12"
-                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
-                                   LineBreakMode="TailTruncation"/>
-                            <HorizontalStackLayout Spacing="4">
-                                <Label Text="x8" FontSize="11" TextColor="{StaticResource Gray400}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="$7.50" FontSize="14" FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray900}"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Producto 7: Snack 200g (otro) -->
-                    <Border Grid.Row="2" Grid.Column="0"
-                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
-                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
-                            Padding="10">
-                        <VerticalStackLayout Spacing="4">
-                            <Border BackgroundColor="{StaticResource InputBackground}"
-                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                    HeightRequest="70" Padding="0">
-                                <Label Text="🍪" FontSize="30"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="Snack 200g" FontSize="12"
-                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
-                                   LineBreakMode="TailTruncation"/>
-                            <HorizontalStackLayout Spacing="4">
-                                <Label Text="x15" FontSize="11" TextColor="{StaticResource Gray400}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="$1.95" FontSize="14" FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray900}"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Producto 8: Coca Cola 2 Litros -->
-                    <Border Grid.Row="2" Grid.Column="1"
-                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
-                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
-                            Padding="10">
-                        <VerticalStackLayout Spacing="4">
-                            <Border BackgroundColor="{StaticResource InputBackground}"
-                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                    HeightRequest="70" Padding="0">
-                                <Label Text="🥤" FontSize="30"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="Coca Cola 2 Litros" FontSize="12"
-                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
-                                   LineBreakMode="TailTruncation"/>
-                            <HorizontalStackLayout Spacing="4">
-                                <Label Text="x0" FontSize="11" TextColor="{StaticResource Gray400}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="$2.40" FontSize="14" FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray900}"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Producto 9: Sandalias Hombre -->
-                    <Border Grid.Row="2" Grid.Column="2"
-                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
-                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
-                            Padding="10">
-                        <VerticalStackLayout Spacing="4">
-                            <Border BackgroundColor="{StaticResource InputBackground}"
-                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                    HeightRequest="70" Padding="0">
-                                <Label Text="🩴" FontSize="30"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="Sandalias Hombre" FontSize="12"
-                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
-                                   LineBreakMode="TailTruncation"/>
-                            <Label Text="$12.50" FontSize="14" FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray900}"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Producto 10 -->
-                    <Border Grid.Row="3" Grid.Column="0"
-                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
-                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
-                            Padding="10">
-                        <VerticalStackLayout Spacing="4">
-                            <Border BackgroundColor="{StaticResource InputBackground}"
-                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                    HeightRequest="70" Padding="0">
-                                <Label Text="🧣" FontSize="30"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="Sandalias Hombre" FontSize="12"
-                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
-                                   LineBreakMode="TailTruncation"/>
-                            <Label Text="$12.50" FontSize="14" FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray900}"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Producto 11: Zapatillas Deportivas -->
-                    <Border Grid.Row="3" Grid.Column="2"
-                            BackgroundColor="White" StrokeShape="RoundRectangle 10"
-                            Stroke="{StaticResource Gray200Brush}" StrokeThickness="1"
-                            Padding="10">
-                        <VerticalStackLayout Spacing="4">
-                            <Border BackgroundColor="{StaticResource InputBackground}"
-                                    StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                                    HeightRequest="70" Padding="0">
-                                <Label Text="👟" FontSize="30"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="Zapatillas Deportivas" FontSize="12"
-                                   FontAttributes="Bold" TextColor="{StaticResource Gray900}"
-                                   LineBreakMode="TailTruncation"/>
-                            <HorizontalStackLayout Spacing="4">
-                                <Label Text="299721" FontSize="11" TextColor="{StaticResource Gray400}"/>
-                            </HorizontalStackLayout>
-                            <Label Text="$45.00" FontSize="14" FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray900}"/>
-                        </VerticalStackLayout>
-                    </Border>
-
+            </VerticalStackLayout>
                 </Grid>
-            </ScrollView>
-
-            <!-- ── Fila 4: Botones de acción (sin teclado numérico) ── -->
-            <Grid Grid.Row="4" ColumnDefinitions="*, Auto, Auto"
-                  ColumnSpacing="8" Margin="0,10,0,0">
-
-                <!-- F8 Facturar -->
-                <Border Grid.Column="0"
-                        BackgroundColor="{StaticResource InputBackground}"
-                        StrokeShape="RoundRectangle 8" StrokeThickness="1"
-                        Stroke="{StaticResource Gray200Brush}"
-                        HeightRequest="46" Padding="14,0">
-                    <Label Text="F8  Facturar F8" FontSize="13"
-                           FontAttributes="Bold" TextColor="{StaticResource Gray600}"
-                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                </Border>
-
-                <!-- Pesos F7 -->
-                <Border Grid.Column="1"
-                        BackgroundColor="{StaticResource AccentGreen}"
-                        StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                        HeightRequest="46" Padding="16,0">
-                    <Label Text="💵 Pesos F7" FontSize="13"
-                           FontAttributes="Bold" TextColor="White"
-                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                </Border>
-
-                <!-- Ticket F8 -->
-                <Border Grid.Column="2"
-                        BackgroundColor="{StaticResource InputBackground}"
-                        StrokeShape="RoundRectangle 8" StrokeThickness="1"
-                        Stroke="{StaticResource Gray200Brush}"
-                        HeightRequest="46" Padding="16,0">
-                    <Label Text="🖨️ Ticket F8" FontSize="13"
-                           FontAttributes="Bold" TextColor="{StaticResource Gray600}"
-                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                </Border>
             </Grid>
+        </Border>
 
-        </Grid>
-
-        <!-- ══════════════════════════════════════════════════════ -->
-        <!-- Panel derecho: cobro / pago                           -->
-        <!-- ══════════════════════════════════════════════════════ -->
+        <!-- RIGHT PANEL: EXCHANGE RATE + ACTIONS        -->
         <Border Grid.Column="2"
                 BackgroundColor="White"
                 StrokeShape="RoundRectangle 12"
-                Stroke="{StaticResource Gray200Brush}"
+                Stroke="{DynamicResource Gray200Brush}"
                 StrokeThickness="1"
                 Margin="6,10,12,10"
                 Padding="0">
@@ -747,198 +681,155 @@
             <ScrollView>
                 <VerticalStackLayout Spacing="0" Padding="14,14">
 
-                    <!-- TOTAL -->
-                    <Grid ColumnDefinitions="Auto, *" Margin="0,0,0,4">
-                        <Label Grid.Column="0" Text="TOTAL"
-                               FontSize="14" FontAttributes="Bold"
-                               TextColor="{StaticResource Gray600}"
-                               VerticalOptions="Center"/>
-                        <Label Grid.Column="1" Text="$27.25"
-                               FontSize="24" FontAttributes="Bold"
-                               TextColor="{StaticResource Gray900}"
-                               HorizontalTextAlignment="End"
-                               VerticalOptions="Center"/>
-                    </Grid>
+                    <!-- Tipo de Cambio -->
+                    <Label Text="Tipo de Cambio" FontSize="12" FontAttributes="Bold"
+                           TextColor="{DynamicResource Gray600}" Margin="0,0,0,6"/>
 
-                    <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="0,6,0,6"/>
-
-                    <!-- Recibido -->
-                    <Grid ColumnDefinitions="Auto, *" Margin="0,0,0,2">
-                        <Label Grid.Column="0" Text="Recibido"
-                               FontSize="13" TextColor="{StaticResource AccentGreen}"
-                               FontAttributes="Bold" VerticalOptions="Center"/>
-                        <Label Grid.Column="1" Text="$35.00"
-                               FontSize="18" FontAttributes="Bold"
-                               TextColor="{StaticResource Gray900}"
-                               HorizontalTextAlignment="End"
-                               VerticalOptions="Center"/>
-                    </Grid>
-
-                    <!-- Cambio -->
-                    <Grid ColumnDefinitions="Auto, *" Margin="0,0,0,6">
-                        <Label Grid.Column="0" Text="Canto :"
-                               FontSize="13" TextColor="{StaticResource Gray500}"
-                               VerticalOptions="Center"/>
-                        <Label Grid.Column="1" Text="$7.75"
-                               FontSize="18" FontAttributes="Bold"
-                               TextColor="{StaticResource Gray900}"
-                               HorizontalTextAlignment="End"
-                               VerticalOptions="Center"/>
-                    </Grid>
-
-                    <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="0,4,0,10"/>
-
-                    <!-- Efectivo (F6) -->
-                    <Border BackgroundColor="{StaticResource AccentGreen}"
-                            StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                            HeightRequest="44" Padding="12,0" Margin="0,0,0,8">
-                        <Grid ColumnDefinitions="Auto, *">
-                            <Label Grid.Column="0" Text="💵" FontSize="16"
-                                   VerticalOptions="Center" Margin="0,0,6,0"/>
-                            <Label Grid.Column="1" Text="Efectivo (F6)"
-                                   TextColor="White" FontAttributes="Bold"
-                                   FontSize="14" VerticalOptions="Center"/>
-                        </Grid>
-                    </Border>
-
-                    <!-- Tarjeta (F7) -->
-                    <Border BackgroundColor="{StaticResource AccentBlue}"
-                            StrokeShape="RoundRectangle 8" StrokeThickness="0"
-                            HeightRequest="44" Padding="12,0" Margin="0,0,0,8">
-                        <Grid ColumnDefinitions="Auto, *">
-                            <Label Grid.Column="0" Text="💳" FontSize="16"
-                                   VerticalOptions="Center" Margin="0,0,6,0"/>
-                            <Label Grid.Column="1" Text="Tarjeta (F7)"
-                                   TextColor="White" FontAttributes="Bold"
-                                   FontSize="14" VerticalOptions="Center"/>
-                        </Grid>
-                    </Border>
-
-                    <!-- SINPE/QR (F8) -->
-                    <Border BackgroundColor="White"
+                    <Border BackgroundColor="{DynamicResource InputBackground}"
                             StrokeShape="RoundRectangle 8" StrokeThickness="1"
-                            Stroke="{StaticResource Gray200Brush}"
-                            HeightRequest="44" Padding="12,0" Margin="0,0,0,8">
-                        <Grid ColumnDefinitions="Auto, *">
-                            <Label Grid.Column="0" Text="📱" FontSize="16"
-                                   VerticalOptions="Center" Margin="0,0,6,0"/>
-                            <Label Grid.Column="1" Text="SINPE/QR (F8)"
-                                   TextColor="{StaticResource Gray600}" FontAttributes="Bold"
-                                   FontSize="14" VerticalOptions="Center"/>
-                        </Grid>
-                    </Border>
-
-                    <!-- Mixto (F9) -->
-                    <Border BackgroundColor="White"
-                            StrokeShape="RoundRectangle 8" StrokeThickness="1"
-                            Stroke="{StaticResource Gray200Brush}"
-                            HeightRequest="44" Padding="12,0" Margin="0,0,0,12">
-                        <Grid ColumnDefinitions="Auto, *">
-                            <Label Grid.Column="0" Text="💱" FontSize="16"
-                                   VerticalOptions="Center" Margin="0,0,6,0"/>
-                            <Label Grid.Column="1" Text="Mixto (F9)"
-                                   TextColor="{StaticResource Gray600}" FontAttributes="Bold"
-                                   FontSize="14" VerticalOptions="Center"/>
-                        </Grid>
-                    </Border>
-
-                    <!-- F10 Cobrar -->
-                    <Border BackgroundColor="{StaticResource AccentGreen}"
-                            StrokeShape="RoundRectangle 10" StrokeThickness="0"
-                            HeightRequest="56" Padding="14,0" Margin="0,0,0,12">
-                        <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
-                            <Label Grid.Column="0" Text="F10"
-                                   TextColor="White" FontAttributes="Bold"
-                                   FontSize="18" VerticalOptions="Center"/>
-                            <Label Grid.Column="1" Text="Cobrar"
-                                   TextColor="White" FontAttributes="Bold"
-                                   FontSize="20"
-                                   HorizontalTextAlignment="Center"
+                            Stroke="{DynamicResource Gray200Brush}"
+                            Padding="10,8" Margin="0,0,0,14">
+                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="6">
+                            <Label Grid.Column="0" Text="USD &#x2192; CRC" FontSize="12"
+                                   TextColor="{DynamicResource Gray500}"
+                                   VerticalOptions="Center"/>
+                            <Label Grid.Column="1" Text="{Binding ExchangeRateText}"
+                                   FontSize="14" FontAttributes="Bold"
+                                   TextColor="{DynamicResource Gray900}"
+                                   HorizontalTextAlignment="End"
+                                   VerticalOptions="Center"/>
+                            <Label Grid.Column="2" Text="&#x1F504;" FontSize="12"
+                                   TextColor="{DynamicResource Gray400}"
                                    VerticalOptions="Center"/>
                         </Grid>
                     </Border>
 
-                    <!-- Imprimir Ticket toggle -->
-                    <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,8">
-                        <Label Grid.Column="0" Text="Imprimir Ticket"
-                               FontSize="13" TextColor="{StaticResource Gray600}"
-                               VerticalOptions="Center"/>
-                        <Switch Grid.Column="1"
-                                IsToggled="True"
-                                OnColor="{StaticResource AccentGreen}"
-                                VerticalOptions="Center"/>
-                    </Grid>
+                    <BoxView Style="{DynamicResource FormDivider}" Margin="0,0,0,14"/>
 
-                    <!-- Enviar a -->
-                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="8" Margin="0,0,0,10">
-                        <Label Grid.Column="0" Text="Enviar a:"
-                               FontSize="13" TextColor="{StaticResource Gray500}"
-                               VerticalOptions="Center"/>
-                        <Border Grid.Column="1"
-                                BackgroundColor="{StaticResource InputBackground}"
-                                StrokeShape="RoundRectangle 6" StrokeThickness="1"
-                                Stroke="{StaticResource Gray200Brush}"
-                                Padding="8,0" HeightRequest="34">
-                            <Picker SelectedIndex="0"
-                                    FontSize="12"
-                                    TextColor="{StaticResource Gray600}"
-                                    BackgroundColor="Transparent"
-                                    HorizontalOptions="Fill">
-                                <Picker.ItemsSource>
-                                    <x:Array Type="{x:Type x:String}">
-                                        <x:String>No enviar</x:String>
-                                        <x:String>Email</x:String>
-                                        <x:String>WhatsApp</x:String>
-                                    </x:Array>
-                                </Picker.ItemsSource>
-                            </Picker>
+                    <!-- Action Buttons -->
+                    <VerticalStackLayout Spacing="6">
+
+                        <!-- Cotización → Azul -->
+                        <Border Style="{DynamicResource PaymentLinkRow}"
+                                BackgroundColor="#EFF6FF" Stroke="#BFDBFE">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                                <Border Grid.Column="0" Style="{DynamicResource PaymentIconBadge}"
+                                        BackgroundColor="#3B82F6">
+                                    <Label Text="&#x1F4CB;" FontSize="16"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Label Grid.Column="1" Text="Cotización"
+                                       FontSize="13" FontAttributes="Bold"
+                                       TextColor="#1D4ED8" VerticalOptions="Center"/>
+                                <Label Grid.Column="2" Text="&#x276F;" FontSize="14"
+                                       TextColor="#3B82F6" Opacity="0.6" VerticalOptions="Center"/>
+                            </Grid>
                         </Border>
-                    </Grid>
 
-                    <BoxView Color="{StaticResource Gray100}" HeightRequest="1" Margin="0,4,0,10"/>
+                        <!-- Rec. Cotización → Verde esmeralda -->
+                        <Border Style="{DynamicResource PaymentLinkRow}"
+                                BackgroundColor="#F0FDF4" Stroke="#BBF7D0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                                <Border Grid.Column="0" Style="{DynamicResource PaymentIconBadge}"
+                                        BackgroundColor="#10B981">
+                                    <Label Text="&#x1F4E5;" FontSize="16"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Label Grid.Column="1" Text="Rec. Cotización"
+                                       FontSize="13" FontAttributes="Bold"
+                                       TextColor="#065F46" VerticalOptions="Center"/>
+                                <Label Grid.Column="2" Text="&#x276F;" FontSize="14"
+                                       TextColor="#10B981" Opacity="0.6" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
 
-                    <!-- Facturas Pendientes -->
-                    <Border BackgroundColor="White"
-                            StrokeShape="RoundRectangle 8" StrokeThickness="1"
-                            Stroke="{StaticResource Gray200Brush}"
-                            HeightRequest="40" Padding="12,0" Margin="0,0,0,6">
-                        <Grid ColumnDefinitions="Auto, *">
-                            <Label Grid.Column="0" Text="📋" FontSize="14"
-                                   VerticalOptions="Center" Margin="0,0,6,0"/>
-                            <Label Grid.Column="1" Text="Facturas Pendientes"
-                                   TextColor="{StaticResource Gray600}"
-                                   FontSize="13" VerticalOptions="Center"/>
-                        </Grid>
-                    </Border>
+                        <!-- Fac. Espera → Ámbar -->
+                        <Border Style="{DynamicResource PaymentLinkRow}"
+                                BackgroundColor="#FFFBEB" Stroke="#FDE68A">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                                <Border Grid.Column="0" Style="{DynamicResource PaymentIconBadge}"
+                                        BackgroundColor="#F59E0B">
+                                    <Label Text="&#x23F8;&#xFE0E;" FontSize="14"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Label Grid.Column="1" Text="Fac. Espera"
+                                       FontSize="13" FontAttributes="Bold"
+                                       TextColor="#92400E" VerticalOptions="Center"/>
+                                <Label Grid.Column="2" Text="&#x276F;" FontSize="14"
+                                       TextColor="#F59E0B" Opacity="0.6" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
 
-                    <!-- Imprimir Ticket (link) -->
-                    <Border BackgroundColor="White"
-                            StrokeShape="RoundRectangle 8" StrokeThickness="1"
-                            Stroke="{StaticResource Gray200Brush}"
-                            HeightRequest="40" Padding="12,0" Margin="0,0,0,6">
-                        <Grid ColumnDefinitions="Auto, *">
-                            <Label Grid.Column="0" Text="🖨️" FontSize="14"
-                                   VerticalOptions="Center" Margin="0,0,6,0"/>
-                            <Label Grid.Column="1" Text="Imprimir Ticket"
-                                   TextColor="{StaticResource Gray600}"
-                                   FontSize="13" VerticalOptions="Center"/>
-                        </Grid>
-                    </Border>
+                        <!-- Rec. Espera → Violeta -->
+                        <Border Style="{DynamicResource PaymentLinkRow}"
+                                BackgroundColor="#F5F3FF" Stroke="#DDD6FE">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                                <Border Grid.Column="0" Style="{DynamicResource PaymentIconBadge}"
+                                        BackgroundColor="#8B5CF6">
+                                    <Label Text="&#x1F504;" FontSize="16"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Label Grid.Column="1" Text="Rec. Espera"
+                                       FontSize="13" FontAttributes="Bold"
+                                       TextColor="#5B21B6" VerticalOptions="Center"/>
+                                <Label Grid.Column="2" Text="&#x276F;" FontSize="14"
+                                       TextColor="#8B5CF6" Opacity="0.6" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
 
-                    <!-- Volver a la Orden -->
-                    <Border BackgroundColor="White"
-                            StrokeShape="RoundRectangle 8" StrokeThickness="1"
-                            Stroke="{StaticResource Gray200Brush}"
-                            HeightRequest="40" Padding="12,0" Margin="0,0,0,0">
-                        <Grid ColumnDefinitions="Auto, *">
-                            <Label Grid.Column="0" Text="←" FontSize="14"
-                                   TextColor="{StaticResource Gray500}"
-                                   VerticalOptions="Center" Margin="0,0,6,0"/>
-                            <Label Grid.Column="1" Text="Volver a la Orden"
-                                   TextColor="{StaticResource Gray600}"
-                                   FontSize="13" VerticalOptions="Center"/>
-                        </Grid>
-                    </Border>
+                        <!-- Orden Pedido → Índigo -->
+                        <Border Style="{DynamicResource PaymentLinkRow}"
+                                BackgroundColor="#EEF2FF" Stroke="#C7D2FE">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                                <Border Grid.Column="0" Style="{DynamicResource PaymentIconBadge}"
+                                        BackgroundColor="#6366F1">
+                                    <Label Text="&#x1F4E6;" FontSize="16"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Label Grid.Column="1" Text="Orden Pedido"
+                                       FontSize="13" FontAttributes="Bold"
+                                       TextColor="#3730A3" VerticalOptions="Center"/>
+                                <Label Grid.Column="2" Text="&#x276F;" FontSize="14"
+                                       TextColor="#6366F1" Opacity="0.6" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Rec. Pedido → Slate -->
+                        <Border Style="{DynamicResource PaymentLinkRow}"
+                                BackgroundColor="#F8FAFC" Stroke="#CBD5E1">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                                <Border Grid.Column="0" Style="{DynamicResource PaymentIconBadge}"
+                                        BackgroundColor="#64748B">
+                                    <Label Text="&#x1F4E5;" FontSize="16"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                                <Label Grid.Column="1" Text="Rec. Pedido"
+                                       FontSize="13" FontAttributes="Bold"
+                                       TextColor="#334155" VerticalOptions="Center"/>
+                                <Label Grid.Column="2" Text="&#x276F;" FontSize="14"
+                                       TextColor="#64748B" Opacity="0.6" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+
+                    </VerticalStackLayout>
 
                 </VerticalStackLayout>
             </ScrollView>

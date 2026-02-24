@@ -7,7 +7,7 @@
     <Style x:Key="FieldLabel" TargetType="Label">
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="TextColor" Value="{StaticResource Gray500}"/>
+        <Setter Property="TextColor" Value="{DynamicResource Gray500}"/>
         <Setter Property="Margin" Value="0,10,0,4"/>
     </Style>
 
@@ -15,33 +15,33 @@
     <Style x:Key="FieldLabelDark" TargetType="Label">
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="TextColor" Value="{StaticResource Gray900}"/>
+        <Setter Property="TextColor" Value="{DynamicResource Gray900}"/>
         <Setter Property="Margin" Value="0,0,0,6"/>
     </Style>
 
     <!-- Contenedor Border para inputs (Entry, Picker, etc.) -->
     <Style x:Key="InputBox" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}"/>
         <Setter Property="StrokeShape" Value="RoundRectangle 8"/>
         <Setter Property="StrokeThickness" Value="1"/>
-        <Setter Property="Stroke" Value="{StaticResource Gray200Brush}"/>
+        <Setter Property="Stroke" Value="{DynamicResource Gray200Brush}"/>
         <Setter Property="Padding" Value="10,0"/>
         <Setter Property="HeightRequest" Value="40"/>
     </Style>
 
     <!-- Contenedor compacto para pickers de 3 columnas -->
     <Style x:Key="CompactInputBox" TargetType="Border">
-        <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}"/>
         <Setter Property="StrokeShape" Value="RoundRectangle 6"/>
         <Setter Property="StrokeThickness" Value="1"/>
-        <Setter Property="Stroke" Value="{StaticResource Gray200Brush}"/>
+        <Setter Property="Stroke" Value="{DynamicResource Gray200Brush}"/>
         <Setter Property="Padding" Value="4,0"/>
     </Style>
 
     <!-- Texto de ayuda / descripción secundaria debajo de un campo -->
     <Style x:Key="HelpText" TargetType="Label">
         <Setter Property="FontSize" Value="11"/>
-        <Setter Property="TextColor" Value="{StaticResource Gray400}"/>
+        <Setter Property="TextColor" Value="{DynamicResource Gray400}"/>
         <Setter Property="LineBreakMode" Value="WordWrap"/>
     </Style>
 
@@ -49,7 +49,7 @@
     <Style x:Key="IconFieldLabel" TargetType="Label">
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="TextColor" Value="{StaticResource Gray600}"/>
+        <Setter Property="TextColor" Value="{DynamicResource Gray600}"/>
         <Setter Property="VerticalOptions" Value="Center"/>
     </Style>
 
@@ -57,13 +57,13 @@
     <Style x:Key="SectionTitle" TargetType="Label">
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="TextColor" Value="{StaticResource Gray600}"/>
+        <Setter Property="TextColor" Value="{DynamicResource Gray600}"/>
         <Setter Property="Margin" Value="0,0,0,10"/>
     </Style>
 
     <!-- Botón de acción primaria de página -->
     <Style x:Key="PrimaryActionButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource AccentBlue}"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource AccentBlue}"/>
         <Setter Property="TextColor" Value="White"/>
         <Setter Property="FontAttributes" Value="Bold"/>
         <Setter Property="FontSize" Value="14"/>
@@ -74,12 +74,157 @@
 
     <!-- Botón secundario (gris claro, texto oscuro) -->
     <Style x:Key="SecondaryButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}"/>
-        <Setter Property="TextColor" Value="{StaticResource Gray600}"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}"/>
+        <Setter Property="TextColor" Value="{DynamicResource Gray600}"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="HeightRequest" Value="42"/>
         <Setter Property="HorizontalOptions" Value="Fill"/>
+    </Style>
+
+    <!-- Línea separadora para formularios (reemplaza controls:FormDivider) -->
+    <Style x:Key="FormDivider" TargetType="BoxView">
+        <Setter Property="Color" Value="{DynamicResource Gray200}"/>
+        <Setter Property="HeightRequest" Value="1"/>
+    </Style>
+
+    <!-- Label preconfigurado para iconos Unicode (reemplaza controls:IconLabel) -->
+    <Style x:Key="IconLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="TextColor" Value="{DynamicResource Gray500}"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- ─── Precios de oferta en cards de productos ─── -->
+
+    <!-- Precio anterior tachado -->
+    <Style x:Key="OfferOldPrice" TargetType="Label">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="TextColor" Value="{DynamicResource Gray400}"/>
+        <Setter Property="TextDecorations" Value="Strikethrough"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- Precio nuevo (más grande, color oferta) -->
+    <Style x:Key="OfferNewPrice" TargetType="Label">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="{DynamicResource AccentOrange}"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- ─── Carrito: botones +/- ─── -->
+
+    <!-- Botón "−" (naranja) -->
+    <Style x:Key="CartMinusBtn" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{DynamicResource AccentOrange}"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 8"/>
+        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="WidthRequest" Value="32"/>
+        <Setter Property="HeightRequest" Value="32"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <!-- Botón "+" (verde) -->
+    <Style x:Key="CartPlusBtn" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{DynamicResource AccentGreen}"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 8"/>
+        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="WidthRequest" Value="32"/>
+        <Setter Property="HeightRequest" Value="32"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <!-- Texto dentro de botones +/- -->
+    <Style x:Key="CartBtnText" TargetType="Label">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- Cantidad entre los botones -->
+    <Style x:Key="CartQty" TargetType="Label">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="{DynamicResource Gray900}"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="MinimumWidthRequest" Value="24"/>
+    </Style>
+
+    <!-- ─── Barra de búsqueda: botones de tecla ─── -->
+
+    <!-- F2: botón azul con icono + tecla -->
+    <Style x:Key="SearchKeyBtnBlue" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{DynamicResource AccentBlue}"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 8"/>
+        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="Padding" Value="10,0"/>
+    </Style>
+
+    <!-- F4 / F8: botón neutro gris -->
+    <Style x:Key="SearchKeyBtnGray" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 8"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Stroke" Value="{DynamicResource Gray200Brush}"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="WidthRequest" Value="46"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <!-- ─── Tabs de categoría ─── -->
+
+    <!-- Tab activo (seleccionado) -->
+    <Style x:Key="CategoryTabActive" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{DynamicResource AccentBlue}"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 20"/>
+        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="Padding" Value="16,9"/>
+    </Style>
+
+    <!-- Tab inactivo -->
+    <Style x:Key="CategoryTabInactive" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="White"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 20"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Stroke" Value="{DynamicResource Gray200Brush}"/>
+        <Setter Property="Padding" Value="16,9"/>
+    </Style>
+
+    <!-- ─── Breadcrumb: botones de icono ─── -->
+
+    <Style x:Key="BreadcrumbIconBtn" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{DynamicResource InputBackground}"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 6"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Stroke" Value="{DynamicResource Gray200Brush}"/>
+        <Setter Property="WidthRequest" Value="32"/>
+        <Setter Property="HeightRequest" Value="32"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <!-- ─── Panel de cobro ─── -->
+
+    <!-- Badge de icono en botones de pago -->
+    <Style x:Key="PaymentIconBadge" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 8"/>
+        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="WidthRequest" Value="36"/>
+        <Setter Property="HeightRequest" Value="36"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- Botón de acción del panel derecho -->
+    <Style x:Key="PaymentLinkRow" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="HeightRequest" Value="52"/>
+        <Setter Property="Padding" Value="12,0"/>
     </Style>
 
 </ResourceDictionary>
